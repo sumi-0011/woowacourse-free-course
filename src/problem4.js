@@ -30,7 +30,8 @@ const convertReserveWord = (char) => {
 };
 
 function problem4(word) {
-  var answer;
+  var answer = [...word].map((char) => convertReserveWord(char)).join("");
+
   return answer;
 }
 
