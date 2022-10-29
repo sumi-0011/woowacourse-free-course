@@ -1,3 +1,6 @@
+const getNumberToCharList = (number) => {
+  return number.toString().split("");
+};
 function problem3(number) {
   var answer;
   return answer;
