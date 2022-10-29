@@ -8,6 +8,20 @@ const seperateName = (name) => {
   return arr;
 };
 
+const getDuplicate = (obj) => {
+  const res = [];
+
+  for (const key in obj) {
+    const emailList = obj[key];
+
+    if (emailList.length > 1) {
+      res.push(...emailList);
+    }
+  }
+
+  return [...new Set(res)];
+};
+
 const getSeperateNameObj = (forms) => {
   const obj = {};
 
@@ -22,8 +36,15 @@ const getSeperateNameObj = (forms) => {
 
   return obj;
 };
+
 function problem6(forms) {
   const seperateNameObj = getSeperateNameObj(forms);
+
+  const uniqueArr = getDuplicate(seperateNameObj);
+
+  const sortedRes = uniqueArr.sort();
+
+  return sortedRes;
 }
 
 module.exports = problem6;
