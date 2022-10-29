@@ -9,8 +9,18 @@ const getRelationPeople = (friends) => {
   return obj;
 };
 
+const getVisitorsCnt = (visitors) => {
+  const obj = {};
+
+  for (const visitor of visitors) {
+    visitor in obj ? (obj[visitor] += 1) : (obj[visitor] = 1);
+  }
+
+  return obj;
+};
 function problem7(user, friends, visitors) {
   const relations = getRelationPeople(friends);
+  const vistiedCnt = getVisitorsCnt(visitors);
 }
 
 module.exports = problem7;
