@@ -27,6 +27,14 @@ const getKnowSameCnt = (user1, user2, relation) => {
 
   return difference.length;
 };
+
+const compareScoreAndName = (a, b) => {
+  if (a.score < b.score) return 1;
+  if (a.score > b.score) return -1;
+
+  return a.name - b.name;
+};
+
 const getRecommandScore = (user, people, relations, vistiedCnt) => {
   const recommandScore = [];
 
@@ -40,7 +48,9 @@ const getRecommandScore = (user, people, relations, vistiedCnt) => {
       score += vistiedCnt[person];
     }
 
-    recommandScore.push({ score, name: person });
+    if (score !== 0) {
+      recommandScore.push({ score, name: person });
+    }
   }
 
   return recommandScore;
@@ -75,6 +85,12 @@ function problem7(user, friends, visitors) {
     vistiedCnt
   );
 
+  const sortedRecommandScoreName = recommandScore.sort(compareScoreAndName);
+  const resultNameList = sortedRecommandScoreName
+    .map((res) => res.name)
+    .slice(0, 5);
+
+  return resultNameList;
 }
 
 module.exports = problem7;
