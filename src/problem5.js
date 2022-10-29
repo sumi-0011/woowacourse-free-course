@@ -9,7 +9,15 @@ const getUnitRest = (unit, money) => {
 };
 
 function problem5(money) {
-  var answer;
+  const answer = [];
+  let n = money;
+
+  for (const unit of BILL) {
+    const [cnt, rest] = [getMaxUnitCnt(unit, n), getUnitRest(unit, n)];
+    n = rest;
+    answer.push(cnt);
+  }
+
   return answer;
 }
 
