@@ -27,6 +27,25 @@ const getKnowSameCnt = (user1, user2, relation) => {
 
   return difference.length;
 };
+const getRecommandScore = (user, people, relations, vistiedCnt) => {
+  const recommandScore = [];
+
+  for (person of people) {
+    let score = 0;
+
+    if (person in relations) {
+      score += getKnowSameCnt(person, user, relations) * 10;
+    }
+    if (person in vistiedCnt) {
+      score += vistiedCnt[person];
+    }
+
+    recommandScore.push({ score, name: person });
+  }
+
+  return recommandScore;
+};
+
 const getNotUserFreinds = (user, relations, vistiedCnt) => {
   const allPeople = [
     ...new Set([...Object.keys(relations), ...Object.keys(vistiedCnt)]),
@@ -48,6 +67,14 @@ function problem7(user, friends, visitors) {
   const vistiedCnt = getVisitorsCnt(visitors);
 
   const notUserFreinds = getNotUserFreinds(user, relations, vistiedCnt);
+
+  const recommandScore = getRecommandScore(
+    user,
+    notUserFreinds,
+    relations,
+    vistiedCnt
+  );
+
 }
 
 module.exports = problem7;
