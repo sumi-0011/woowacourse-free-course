@@ -9,6 +9,26 @@ const checkUpperCase = (char) => {
     char.charCodeAt(0) <= UPPER_LAST_CODE
   );
 };
+
+const getReverseChar = (char) => {
+  const isUpper = checkUpperCase(char);
+  const charCode = char.charCodeAt(0);
+
+  if (isUpper) {
+    const reverseCode = UPPER_LAST_CODE - charCode + UPPER_FIRST_CODE;
+    return reverseCode;
+  } else {
+    const reverseCode = LOWER_LAST_CODE - charCode + LOWER_FIRST_CODE;
+    return reverseCode;
+  }
+};
+
+const convertReserveWord = (char) => {
+  if (char === " ") return char;
+  const reserveChar = String.fromCharCode(getReverseChar(char));
+  return reserveChar;
+};
+
 function problem4(word) {
   var answer;
   return answer;
