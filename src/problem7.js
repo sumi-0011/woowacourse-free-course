@@ -18,9 +18,28 @@ const getVisitorsCnt = (visitors) => {
 
   return obj;
 };
+
+const getNotUserFreinds = (user, relations, vistiedCnt) => {
+  const allPeople = [
+    ...new Set([...Object.keys(relations), ...Object.keys(vistiedCnt)]),
+  ];
+
+  const notUserFreinds = allPeople.filter((person) =>
+    checkNotUserFreinds(user, person, relations)
+  );
+
+  return notUserFreinds;
+};
+
+const checkNotUserFreinds = (user, person, relations) => {
+  return person !== user && !relations[user].includes(person);
+};
+
 function problem7(user, friends, visitors) {
   const relations = getRelationPeople(friends);
   const vistiedCnt = getVisitorsCnt(visitors);
+
+  const notUserFreinds = getNotUserFreinds(user, relations, vistiedCnt);
 }
 
 module.exports = problem7;
