@@ -7,7 +7,13 @@ const get369Count = (arr) => {
 };
 
 function problem3(number) {
-  var answer;
+  var answer = 0;
+
+  for (let i = 1; i <= number; i++) {
+    const chars = getNumberToCharList(i);
+    answer += get369Count(chars);
+  }
+
   return answer;
 }
 
