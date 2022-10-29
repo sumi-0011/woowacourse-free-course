@@ -19,6 +19,14 @@ const getVisitorsCnt = (visitors) => {
   return obj;
 };
 
+const getKnowSameCnt = (user1, user2, relation) => {
+  const freind1 = relation[user1];
+  const freind2 = relation[user2];
+
+  const difference = freind1.filter((x) => freind2.includes(x) && x !== user2);
+
+  return difference.length;
+};
 const getNotUserFreinds = (user, relations, vistiedCnt) => {
   const allPeople = [
     ...new Set([...Object.keys(relations), ...Object.keys(vistiedCnt)]),
