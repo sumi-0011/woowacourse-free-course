@@ -1,10 +1,10 @@
-function checkSuccessfulOpenPage(leftPage, rightPage) {
+const checkSuccessfulOpenPage = (leftPage, rightPage) => {
   return rightPage - leftPage !== 1;
-}
+};
 
-function getNumberList(number) {
+const getNumberList = (number) => {
   return [...number.toString()].map((s) => parseInt(s));
-}
+};
 
 const getPlus = (numbers) => {
   const result = numbers.reduce(function add(sum, currValue) {
@@ -42,6 +42,13 @@ function problem1(pobi, crong) {
   const pobiMax = getMaxNumber(pobiNumbers);
   const crongMax = getMaxNumber(crongNumbers);
 
+  if (pobiMax == crongMax) {
+    return 0;
+  } else if (pobiMax > crongMax) {
+    return 1;
+  } else {
+    return 2;
+  }
 }
 
 module.exports = problem1;
