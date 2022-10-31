@@ -20,6 +20,8 @@ const getVisitorsCnt = (visitors) => {
 };
 
 const getKnowSameCnt = (user1, user2, relation) => {
+  if (!(user1 in relation) || !(user2 in relation)) return 0;
+
   const freind1 = relation[user1];
   const freind2 = relation[user2];
 
@@ -71,7 +73,9 @@ const getNotUserFreinds = (user, relations, vistiedCnt) => {
 };
 
 const checkNotUserFreinds = (user, person, relations) => {
-  return person !== user && !relations[user].includes(person);
+  if (user in relations)
+    return person !== user && !relations[user].includes(person);
+  return true;
 };
 
 function problem7(user, friends, visitors) {
@@ -88,6 +92,7 @@ function problem7(user, friends, visitors) {
   );
 
   const sortedRecommandScoreName = recommandScore.sort(compareScoreAndName);
+
   const resultNameList = sortedRecommandScoreName
     .map((res) => res.name)
     .slice(0, 5);
