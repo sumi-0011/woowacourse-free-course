@@ -3,6 +3,13 @@ const UPPER_LAST_CODE = "Z".charCodeAt(0);
 const LOWER_FIRST_CODE = "a".charCodeAt(0);
 const LOWER_LAST_CODE = "z".charCodeAt(0);
 
+const checkAlpha = (char) => {
+  return (
+    char.charCodeAt(0) >= UPPER_FIRST_CODE &&
+    char.charCodeAt(0) <= LOWER_LAST_CODE
+  );
+};
+
 const checkUpperCase = (char) => {
   return (
     char.charCodeAt(0) >= UPPER_FIRST_CODE &&
@@ -24,7 +31,7 @@ const getReverseChar = (char) => {
 };
 
 const convertReserveWord = (char) => {
-  if (char === " ") return char;
+  if (char === " " || !checkAlpha(char)) return char;
   const reserveChar = String.fromCharCode(getReverseChar(char));
   return reserveChar;
 };
