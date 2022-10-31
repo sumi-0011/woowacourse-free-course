@@ -1,4 +1,7 @@
 const checkSuccessfulOpenPage = (leftPage, rightPage) => {
+  if (leftPage < 1 || rightPage < 1) return true;
+  if (leftPage > 400 || rightPage > 400) return true;
+
   return rightPage - leftPage !== 1;
 };
 
