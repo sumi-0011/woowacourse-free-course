@@ -1,18 +1,23 @@
-function problem2(cryptogram) {
-  const stack = [""];
-  let idx = 0;
+const decryptedCyptogram = (cryptogram) => {
+  const regex = /([a-z])\1+/g;
 
-  for (const c of cryptogram) {
-    if (c === stack[idx]) {
-      stack.pop();
-      idx--;
-    } else {
-      stack.push(c);
-      idx++;
-    }
+  return cryptogram.replace(regex, "");
+};
+
+const checkIsCryptogram = (str) => {
+  const regex = /([a-z])\1+/g;
+
+  return str.match(regex);
+};
+
+function problem2(cryptogram) {
+  let res = cryptogram;
+
+  while (checkIsCryptogram(res)) {
+    res = decryptedCyptogram(res);
   }
 
-  return stack.join("");
+  return res;
 }
 
 module.exports = problem2;
