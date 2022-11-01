@@ -13,9 +13,10 @@ function problem5(money) {
   let n = money;
 
   for (const unit of BILL) {
-    const [cnt, rest] = [getMaxUnitCnt(unit, n), getUnitRest(unit, n)];
+    const maxUnitCnt = getMaxUnitCnt(unit, n);
+    const rest = getUnitRest(unit, n);
+    answer.push(maxUnitCnt);
     n = rest;
-    answer.push(cnt);
   }
 
   return answer;
