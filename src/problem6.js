@@ -1,4 +1,4 @@
-const seperateName = (name) => {
+const separateName = (name) => {
   const arr = [];
 
   for (let i = 0; i < name.length - 1; i++) {
@@ -22,12 +22,12 @@ const getDuplicate = (obj) => {
   return [...new Set(res)];
 };
 
-const getSeperateNameObj = (forms) => {
+const getSeparateNameObj = (forms) => {
   const obj = {};
 
   for (const person of forms) {
     const [email, name] = person;
-    const names = seperateName(name);
+    const names = separateName(name);
 
     names.forEach((name) => {
       name in obj ? (obj[name] = [...obj[name], email]) : (obj[name] = [email]);
@@ -38,9 +38,9 @@ const getSeperateNameObj = (forms) => {
 };
 
 function problem6(forms) {
-  const seperateNameObj = getSeperateNameObj(forms);
+  const separateNameObj = getSeparateNameObj(forms);
 
-  const uniqueArr = getDuplicate(seperateNameObj);
+  const uniqueArr = getDuplicate(separateNameObj);
 
   const sortedRes = uniqueArr.sort();
 
