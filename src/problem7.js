@@ -22,10 +22,10 @@ const getVisitorsCnt = (visitors) => {
 const getKnowSameCnt = (user1, user2, relation) => {
   if (!(user1 in relation) || !(user2 in relation)) return 0;
 
-  const freind1 = relation[user1];
-  const freind2 = relation[user2];
+  const friend1 = relation[user1];
+  const friend2 = relation[user2];
 
-  const difference = freind1.filter((x) => freind2.includes(x) && x !== user2);
+  const difference = friend1.filter((x) => friend2.includes(x) && x !== user2);
 
   return difference.length;
 };
@@ -39,8 +39,8 @@ const compareScoreAndName = (a, b) => {
   return 0;
 };
 
-const getRecommandScore = (user, people, relations, vistiedCnt) => {
-  const recommandScore = [];
+const getRecommendScore = (user, people, relations, visitedCnt) => {
+  const recommendScore = [];
 
   for (person of people) {
     let score = 0;
@@ -48,31 +48,31 @@ const getRecommandScore = (user, people, relations, vistiedCnt) => {
     if (person in relations) {
       score += getKnowSameCnt(person, user, relations) * 10;
     }
-    if (person in vistiedCnt) {
-      score += vistiedCnt[person];
+    if (person in visitedCnt) {
+      score += visitedCnt[person];
     }
 
     if (score !== 0) {
-      recommandScore.push({ score, name: person });
+      recommendScore.push({ score, name: person });
     }
   }
 
-  return recommandScore;
+  return recommendScore;
 };
 
-const getNotUserFreinds = (user, relations, vistiedCnt) => {
+const getNotUserFriends = (user, relations, visitedCnt) => {
   const allPeople = [
-    ...new Set([...Object.keys(relations), ...Object.keys(vistiedCnt)]),
+    ...new Set([...Object.keys(relations), ...Object.keys(visitedCnt)]),
   ];
 
-  const notUserFreinds = allPeople.filter((person) =>
-    checkNotUserFreinds(user, person, relations)
+  const notUserFriends = allPeople.filter((person) =>
+    checkNotUserFriends(user, person, relations)
   );
 
-  return notUserFreinds;
+  return notUserFriends;
 };
 
-const checkNotUserFreinds = (user, person, relations) => {
+const checkNotUserFriends = (user, person, relations) => {
   if (user in relations)
     return person !== user && !relations[user].includes(person);
   return true;
@@ -80,20 +80,20 @@ const checkNotUserFreinds = (user, person, relations) => {
 
 function problem7(user, friends, visitors) {
   const relations = getRelationPeople(friends);
-  const vistiedCnt = getVisitorsCnt(visitors);
+  const visitedCnt = getVisitorsCnt(visitors);
 
-  const notUserFreinds = getNotUserFreinds(user, relations, vistiedCnt);
+  const notUserFriends = getNotUserFriends(user, relations, visitedCnt);
 
-  const recommandScore = getRecommandScore(
+  const recommendScore = getRecommendScore(
     user,
-    notUserFreinds,
+    notUserFriends,
     relations,
-    vistiedCnt
+    visitedCnt
   );
 
-  const sortedRecommandScoreName = recommandScore.sort(compareScoreAndName);
+  const sortedRecommendScoreName = recommendScore.sort(compareScoreAndName);
 
-  const resultNameList = sortedRecommandScoreName
+  const resultNameList = sortedRecommendScoreName
     .map((res) => res.name)
     .slice(0, 5);
 
