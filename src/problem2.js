@@ -1,20 +1,18 @@
-const decryptedCyptogram = (cryptogram) => {
-  const regex = /([a-z])\1+/g;
+const CONTINUOUS_CHAR_REGEX = /([a-z])\1+/g;
 
-  return cryptogram.replace(regex, "");
+const decryptedCryptogram = (cryptogram) => {
+  return cryptogram.replace(CONTINUOUS_CHAR_REGEX, "");
 };
 
 const checkIsCryptogram = (str) => {
-  const regex = /([a-z])\1+/g;
-
-  return str.match(regex);
+  return str.match(CONTINUOUS_CHAR_REGEX);
 };
 
 function problem2(cryptogram) {
   let res = cryptogram;
 
   while (checkIsCryptogram(res)) {
-    res = decryptedCyptogram(res);
+    res = decryptedCryptogram(res);
   }
 
   return res;
