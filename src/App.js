@@ -1,4 +1,8 @@
-const { checkUserCurrentInput } = require("./baseball");
+const {
+  checkUserCurrentInput,
+  getResult,
+  getBaseballHint,
+} = require("./baseball");
 const { Console, Random } = require("@woowacourse/mission-utils");
 
 class App {
@@ -22,7 +26,11 @@ class App {
   playNumberBaseball() {
     Console.readLine("숫자를 입력해주세요 :", (answer) => {
       const userNumbers = checkUserCurrentInput(answer);
-      console.log("userNumbers: ", userNumbers);
+      const computerNumbers = this.computer.randomNumbers;
+
+      const result = getResult(userNumbers, computerNumbers);
+      const res = getBaseballHint(result);
+      console.log("res: ", res);
 
       Console.close();
     });

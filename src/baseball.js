@@ -31,4 +31,42 @@ const checkUserCurrentInput = (answer) => {
   }
 };
 
-module.exports = { checkUserCurrentInput };
+const checkBall = (answer, rightAnswers) => {
+  return rightAnswers.findIndex((rightAnswer) => rightAnswer === answer) !== -1;
+};
+
+const getBaseballHint = ({ strike, ball }) => {
+  if (strike === 0 && ball === 0) {
+    return "낫싱";
+  }
+
+  let answer = "";
+  if (ball > 0) {
+    answer += `${ball}볼`;
+  }
+  if (strike > 0) {
+    answer += ` ${strike}스트라이크`;
+  }
+
+  return answer.trim();
+};
+
+const getResult = (answers, rightAnswers) => {
+  let strikeNum = 0;
+  let ballNum = 0;
+
+  for (const idx in answers) {
+    if (answers[idx] === rightAnswers[idx]) {
+      strikeNum += 1;
+      continue;
+    }
+    if (checkBall(answers[idx], rightAnswers)) {
+      ballNum += 1;
+      continue;
+    }
+  }
+
+  return { strike: strikeNum, ball: ballNum };
+};
+
+module.exports = { checkUserCurrentInput, getResult, getBaseballHint };
