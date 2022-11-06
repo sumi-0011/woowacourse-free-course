@@ -1,3 +1,4 @@
+const { checkUserCurrentInput } = require("./baseball");
 const { Console, Random } = require("@woowacourse/mission-utils");
 
 class App {
@@ -7,18 +8,24 @@ class App {
     };
   }
 
+  play() {
+    this.startGame();
+  }
+
   startGame() {
     Console.print("숫자 야구 게임을 시작합니다.");
 
     this.setRandomNumbers();
-
-    Console.close();
+    this.playNumberBaseball();
   }
 
-  play() {
-    this.startGame();
+  playNumberBaseball() {
+    Console.readLine("숫자를 입력해주세요 :", (answer) => {
+      const userNumbers = checkUserCurrentInput(answer);
+      console.log("userNumbers: ", userNumbers);
 
-    return;
+      Console.close();
+    });
   }
 
   setRandomNumbers() {
