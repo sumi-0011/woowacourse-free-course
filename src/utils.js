@@ -27,7 +27,7 @@ const getRandomNumbers = (n, minBound = 1, maxBound = 9) => {
 const convertStringToNumber = (str) => {
   const res = Number(str);
 
-  if (isNaN(res)) {
+  if (Number.isNaN(res)) {
     throw new Error(CONVERT_TO_NUMBER_FAIL);
   }
   return res;
