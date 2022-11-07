@@ -2,6 +2,54 @@ const App = require('../src/App');
 const MissionUtils = require('@woowacourse/mission-utils');
 const { INPUT_FAIL_ERROR_MESSAGE } = require('../src/errorMessage');
 
+const mockQuestions = (answers) => {
+  MissionUtils.Console.readLine = jest.fn();
+  answers.reduce((acc, input) => {
+    return acc.mockImplementationOnce((question, callback) => {
+      callback(input);
+    });
+  }, MissionUtils.Console.readLine);
+};
+const mockRandoms = (numbers) => {
+  MissionUtils.Random.pickNumberInRange = jest.fn();
+  numbers.reduce((acc, number) => {
+    return acc.mockReturnValueOnce(number);
+  }, MissionUtils.Random.pickNumberInRange);
+};
+
+const getLogSpy = () => {
+  const logSpy = jest.spyOn(MissionUtils.Console, 'print');
+  logSpy.mockClear();
+  return logSpy;
+};
+describe('게임 시작', () => {
+  test('게임 시작 문구 출력 ', () => {
+    const logSpy = getLogSpy();
+
+    const app = new App();
+    app.play();
+
+    expect(logSpy).toHaveBeenCalledWith(
+      expect.stringContaining('숫자 야구 게임을 시작합니다.')
+    );
+  });
+
+  test('컴퓨터가 랜덤한 3개의 숫자 생성', () => {
+    const app = new App();
+    const minBound = 1;
+    const maxBound = 9;
+    const randomNumbers = app.computer.randomNumbers;
+
+    randomNumbers.forEach((number) => {
+      expect(number).toBeGreaterThanOrEqual(minBound);
+      expect(number).toBeLessThanOrEqual(maxBound);
+    });
+
+    const randomNumberSet = new Set(randomNumbers);
+    expect(randomNumbers).toHaveLength(randomNumberSet.size);
+  });
+});
+
 
 
 describe("숫자 야구 결과값", () => {
