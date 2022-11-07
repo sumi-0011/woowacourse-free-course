@@ -3,7 +3,10 @@ const {
   getResult,
   getBaseballHint,
 } = require("./baseball");
-const { Console, Random } = require("@woowacourse/mission-utils");
+const { Console } = require("@woowacourse/mission-utils");
+const { getRandomNumbers } = require("./utils");
+
+const BASEBALL_NUMBER_CNT = 3;
 
 class App {
   constructor() {
@@ -37,7 +40,8 @@ class App {
   }
 
   setRandomNumbers() {
-    const randomNumbers = this.getRandomNumbers(3);
+    const randomNumbers = getRandomNumbers(BASEBALL_NUMBER_CNT);
+
     this.computer = {
       randomNumbers,
     };
@@ -53,7 +57,6 @@ class App {
       numbers.push(random);
     }
 
-    return numbers;
   }
 }
 
