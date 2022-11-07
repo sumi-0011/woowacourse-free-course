@@ -20,7 +20,7 @@ class App {
   }
 
   startGame() {
-    Console.print("숫자 야구 게임을 시작합니다.");
+    this.print("숫자 야구 게임을 시작합니다.");
 
     this.setRandomNumbers();
     this.playNumberBaseball();
@@ -47,16 +47,12 @@ class App {
     };
   }
 
-  getRandomNumbers(cnt) {
-    const numbers = [];
-    for (let i = 0; i < cnt; i++) {
-      let random = 0;
-      do {
-        random = Random.pickNumberInRange(1, 9);
-      } while (numbers.includes(random));
-      numbers.push(random);
-    }
+  readLine(message, callback) {
+    Console.readLine(message, callback);
+  }
 
+  print(message) {
+    Console.print(message);
   }
 }
 
