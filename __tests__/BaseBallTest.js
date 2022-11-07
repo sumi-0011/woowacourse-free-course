@@ -1,6 +1,6 @@
-const App = require("../src/App");
-const { INPUT_FAIL_ERROR_MESSAGE } = require("../src/errorMessage");
-const MissionUtils = require("@woowacourse/mission-utils");
+const App = require('../src/App');
+const MissionUtils = require('@woowacourse/mission-utils');
+const { INPUT_FAIL_ERROR_MESSAGE } = require('../src/errorMessage');
 
 
 
@@ -34,7 +34,7 @@ describe("숫자 야구 결과값", () => {
     });
   });
 
-  test("잘못된 사용자의 입력값에 따른 strike, ball 예측", () => {
+  test('잘못된 사용자의 입력값에 따른 strike, ball 예측', () => {
     const rightAnswers = [1, 2, 3];
     const answer = [1, 2];
 
