@@ -26,7 +26,7 @@ const getRandomNumbers = (n, minBound = 1, maxBound = 9) => {
 const convertStringToNumber = (str) => {
   const res = parseInt(str);
 
-  if (res == isNaN) {
+  if (isNaN(res)) {
     throw new Error(`${str}은 숫자로 변환할 수 없습니다. `);
   }
   return res;
@@ -40,4 +40,8 @@ const convertStringsToNumbers = (strList) => {
   return strList.map((str) => convertStringToNumber(str));
 };
 
-module.exports = { getRandomNumbers, convertStringsToNumbers };
+module.exports = {
+  getRandomNumbers,
+  convertStringsToNumbers,
+  convertStringToNumber,
+};
