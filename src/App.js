@@ -1,7 +1,10 @@
 const { Console } = require("@woowacourse/mission-utils");
 const { getRandomNumbers, convertStringsToNumbers } = require("./utils");
+const {
+  HINT_MESSAGE_INVALID_PARAM,
+  INPUT_FAIL_ERROR_MESSAGE,
+} = require("./errorMessage");
 
-const INPUT_FAIL_ERROR_MESSAGE = "잘못된 값을 입력하였습니다. ";
 const BASEBALL_NUMBER_CNT = 3;
 
 class App {
@@ -86,6 +89,9 @@ class App {
   }
 
   getHintMessage({ strike, ball }) {
+    if (strike < 0 || ball < 0) {
+      throw new Error(HINT_MESSAGE_INVALID_PARAM);
+    }
     if (strike === 0 && ball === 0) {
       return "낫싱";
     }

@@ -1,7 +1,7 @@
 const App = require("../src/App");
+const { INPUT_FAIL_ERROR_MESSAGE } = require("../src/errorMessage");
 const MissionUtils = require("@woowacourse/mission-utils");
 
-const INPUT_FAIL_ERROR_MESSAGE = "잘못된 값을 입력하였습니다. ";
 
 
 describe("숫자 야구 결과값", () => {
