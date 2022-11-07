@@ -3,13 +3,15 @@ const { Random } = require("@woowacourse/mission-utils");
 /**
  * n개의 서로 다른 랜덤한 숫자 생성
  * @param {number} n
+ * @param {number} minBound
+ * @param {number} maxBound
  * @returns {number[]}
  */
-const getRandomNumbers = (n) => {
+const getRandomNumbers = (n, minBound = 1, maxBound = 9) => {
   const randomNumbers = [];
 
   while (randomNumbers.length < n) {
-    let random = Random.pickNumberInRange(1, 9);
+    let random = Random.pickNumberInRange(minBound, maxBound);
     if (!randomNumbers.includes(random)) {
       randomNumbers.push(random);
     }
