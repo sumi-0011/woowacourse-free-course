@@ -35,7 +35,7 @@ class App {
         this.print(hint);
 
         if (res.strike === BASEBALL_NUMBER_CNT) {
-          // TODO : 게임 종료
+          this.endGame();
         } else {
           this.numberPrediction();
         }
@@ -45,6 +45,23 @@ class App {
     });
   }
 
+  endGame() {
+    this.print("3개의 숫자를 모두 맞히셨습니다! 게임 종료");
+    this.readLine(
+      "게임을 새로 시작하려면 1, 종료하려면 2를 입력하세요.\n",
+      (answer) => {
+        const trimAnswer = answer.trim();
+
+        if (trimAnswer === "1") {
+          this.startGame();
+        } else if (trimAnswer === "2") {
+          Console.close();
+        } else {
+          throw new Error(INPUT_FAIL_ERROR_MESSAGE);
+        }
+      }
+    );
+  }
 
   getResult(answers) {
     const rightAnswers = this.computer.randomNumbers;
