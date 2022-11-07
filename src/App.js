@@ -25,11 +25,12 @@ class App {
   numberPrediction() {
     this.readLine("숫자를 입력해주세요 : ", (answer) => {
       const answers = answer.trim().split("");
+      const rightAnswers = this.computer.randomNumbers;
 
       if (answers.length === BASEBALL_NUMBER_CNT) {
         const numbers = convertStringsToNumbers(answers);
 
-        const res = this.getResult(numbers);
+        const res = this.getResult(numbers, rightAnswers);
         const hint = this.getHintMessage(res);
 
         this.print(hint);
@@ -63,9 +64,7 @@ class App {
     );
   }
 
-  getResult(answers) {
-    const rightAnswers = this.computer.randomNumbers;
-
+  getResult(answers, rightAnswers) {
     if (answers.length !== rightAnswers.length) {
       throw new Error(INPUT_FAIL_ERROR_MESSAGE);
     }
