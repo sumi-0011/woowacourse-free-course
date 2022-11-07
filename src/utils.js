@@ -2,7 +2,7 @@ const { Random } = require('@woowacourse/mission-utils');
 const { CONVERT_TO_NUMBER_FAIL } = require('../src/errorMessage');
 
 /**
- * n개의 서로 다른 랜덤한 숫자 생성
+ *  minBound ~ maxBound 사이의 n개의 서로 다른 랜덤한 숫자 생성
  * @param {number} n
  * @param {number} minBound
  * @param {number} maxBound
