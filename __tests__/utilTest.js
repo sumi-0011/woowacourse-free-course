@@ -21,8 +21,8 @@ describe("random function test", () => {
     const maxBound = 9;
     const [randomNumber] = getRandomNumbers(n, minBound, maxBound);
 
-    expect(randomNumber).toBeGreaterThan(minBound);
-    expect(randomNumber).toBeLessThan(maxBound);
+    expect(randomNumber).toBeGreaterThanOrEqual(minBound);
+    expect(randomNumber).toBeLessThanOrEqual(maxBound);
   });
 });
 
@@ -50,10 +50,16 @@ describe("string to number test", () => {
   });
 
   test("숫자형이 아닌 요소가 있는 문자 리스트를 숫자 리스트로 변환", () => {
-    const arr = ["a", "2", "3"];
+    const arr = [
+      ["a", "2", "3"],
+      ["0", ".", "5"],
+    ];
+    const errorResult = ["a", "."];
 
-    expect(() => {
-      convertStringsToNumbers(arr);
-    }).toThrow(`${arr[0]}은 숫자로 변환할 수 없습니다.`);
+    arr.forEach((item, idx) => {
+      expect(() => {
+        convertStringsToNumbers(item);
+      }).toThrow(`${errorResult[idx]}은 숫자로 변환할 수 없습니다.`);
+    });
   });
 });
