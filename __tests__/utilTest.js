@@ -3,6 +3,7 @@ const {
   convertStringsToNumbers,
   convertStringToNumber,
 } = require("../src/utils");
+const { CONVERT_TO_NUMBER_FAIL } = require("../src/errorMessage");
 
 describe("random function test", () => {
   test("3개의 서로 다른 랜덤한 숫자가 생성되는지 확인", () => {
@@ -39,7 +40,7 @@ describe("string to number test", () => {
 
     expect(() => {
       convertStringToNumber(str);
-    }).toThrow(`${str}은 숫자로 변환할 수 없습니다.`);
+    }).toThrow(new Error(CONVERT_TO_NUMBER_FAIL));
   });
 
   test("숫자형 문자 리스트를 숫자 리스트로 변환", () => {
@@ -59,7 +60,7 @@ describe("string to number test", () => {
     arr.forEach((item, idx) => {
       expect(() => {
         convertStringsToNumbers(item);
-      }).toThrow(`${errorResult[idx]}은 숫자로 변환할 수 없습니다.`);
+      }).toThrow(new Error(CONVERT_TO_NUMBER_FAIL));
     });
   });
 });

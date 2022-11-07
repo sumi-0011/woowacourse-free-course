@@ -1,4 +1,5 @@
 const { Random } = require("@woowacourse/mission-utils");
+const { CONVERT_TO_NUMBER_FAIL } = require("../src/errorMessage");
 
 /**
  * n개의 서로 다른 랜덤한 숫자 생성
@@ -27,7 +28,7 @@ const convertStringToNumber = (str) => {
   const res = parseInt(str);
 
   if (isNaN(res)) {
-    throw new Error(`${str}은 숫자로 변환할 수 없습니다. `);
+    throw new Error(CONVERT_TO_NUMBER_FAIL);
   }
   return res;
 };
