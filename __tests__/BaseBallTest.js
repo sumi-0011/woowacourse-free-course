@@ -224,7 +224,8 @@ describe('숫자 야구 결과값 함수 테스트', () => {
 
     const app = new App();
     messages.forEach((output, idx) => {
-      expect(app.getHintMessage(result[idx])).toBe(output);
+      const { strike, ball } = result[idx];
+      expect(app.getHintMessage(strike, ball)).toBe(output);
     });
   });
 });

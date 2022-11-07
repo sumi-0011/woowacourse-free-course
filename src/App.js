@@ -33,12 +33,12 @@ class App {
       if (answers.length === BASEBALL_NUMBER_CNT) {
         const numbers = convertStringsToNumbers(answers);
 
-        const res = this.getResult(numbers, rightAnswers);
-        const hint = this.getHintMessage(res);
+        const { strike, ball } = this.getResult(numbers, rightAnswers);
+        const hint = this.getHintMessage(strike, ball);
 
         this.print(hint);
 
-        if (res.strike === BASEBALL_NUMBER_CNT) {
+        if (strike === BASEBALL_NUMBER_CNT) {
           this.endGame();
         } else {
           this.numberPrediction();
@@ -88,7 +88,7 @@ class App {
     return { strike, ball };
   }
 
-  getHintMessage({ strike, ball }) {
+  getHintMessage(strike, ball) {
     if (strike < 0 || ball < 0) {
       throw new Error(HINT_MESSAGE_INVALID_PARAM);
     }
