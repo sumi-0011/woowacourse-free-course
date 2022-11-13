@@ -74,7 +74,8 @@ class LottoGame {
       LOTTO_MAX_MOUND,
     );
 
-    randomNumbers.sort();
+    randomNumbers.sort((a, b) => a - b);
+
     const lotto = new Lotto(randomNumbers);
     return lotto;
   }
@@ -92,7 +93,7 @@ class LottoGame {
 
   readLine(msg, callback) {
     Console.readLine(msg, (answer) => {
-      callback(answer);
+      callback(answer.trim());
     });
   }
 
