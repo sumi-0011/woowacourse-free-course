@@ -52,8 +52,14 @@ const roundNDigit = (number, n) => {
   return result;
 };
 
+const getIntersectionList = (list1, list2) => {
+  const intersectionList = list1.filter((it) => list2.includes(it));
+  return intersectionList;
+};
+
 module.exports = {
   getRandomNumbers,
   calcPortion,
   roundNDigit,
+  getIntersectionList,
 };

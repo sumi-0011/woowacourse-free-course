@@ -89,6 +89,16 @@ const validNoDuplication = (list) => {
   throw new Error(IS_DUPLICATE);
 };
 
+const validExistedDuplication = (list1, list2) => {
+  const intersectionList = list1.filter((it) => list2.includes(it));
+
+  if (intersectionList.length === 0) {
+    return true;
+  }
+
+  throw new Error(IS_DUPLICATE);
+};
+
 module.exports = {
   validInteger,
   validThousandWonUnit,
@@ -97,4 +107,5 @@ module.exports = {
   validListLength,
   validBoundInsideNumberList,
   validNoDuplication,
+  validExistedDuplication,
 };

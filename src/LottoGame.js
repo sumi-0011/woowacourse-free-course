@@ -6,8 +6,15 @@ const {
   validListLength,
   validBoundInsideNumber,
   validBoundInsideNumberList,
+  validNoDuplication,
+  validExistedDuplication,
 } = require('./validation');
-const { getRandomNumbers, calcPortion, roundNDigit } = require('./utils');
+const {
+  getRandomNumbers,
+  calcPortion,
+  roundNDigit,
+  getIntersectionList,
+} = require('./utils');
 const Lotto = require('./Lotto');
 
 const LOTTO_MIN_BOUND = 1;
@@ -39,7 +46,7 @@ class LottoGame {
   }
 
   startGame() {
-    this.readLine('구입금액을 입력해 주세요.\n', (answer) => {
+    this.readLine('구입금액을 입력해 주세요.', (answer) => {
       const lottoCount = this.getLottoCount(answer);
       this.publishLottos(lottoCount);
 
@@ -48,25 +55,31 @@ class LottoGame {
   }
 
   inputWinningNumber() {
-    this.readLine('당첨 번호를 입력해 주세요.\n', (answer) => {
-      this.print('\n');
+    this.readLine('당첨 번호를 입력해 주세요.', (answer) => {
       const numbers = answer.split(',').map((str) => parseInt(str, 10));
+
       validListLength(numbers, 6);
       validBoundInsideNumberList(numbers, 1, 45);
+      validNoDuplication(numbers);
 
       this.winningNumber = [...numbers];
+
+      this.print('/n');
 
       this.inputBonusNumber();
     });
   }
 
   inputBonusNumber() {
-    this.readLine('보너스 번호를 입력해 주세요.\n', (answer) => {
-      this.print('\n');
+    this.readLine('보너스 번호를 입력해 주세요.', (answer) => {
       const bonusNumber = parseInt(answer, 10);
+
       validBoundInsideNumber(bonusNumber, 1, 45);
+      validExistedDuplication(this.winningNumber, [bonusNumber]);
 
       this.bonus = bonusNumber;
+
+      this.print('/n');
 
       this.guessWinningDetails();
     });
@@ -147,7 +160,8 @@ class LottoGame {
   }
 
   checkMatchNumberCount(lottoNumber, winningNumber) {
-    const intersection = lottoNumber.filter((it) => winningNumber.includes(it));
+    const intersection = getIntersectionList(lottoNumber, winningNumber);
+
     return intersection.length;
   }
 
@@ -202,7 +216,7 @@ class LottoGame {
   }
 
   readLine(msg, callback) {
-    Console.readLine(msg, (answer) => {
+    Console.readLine(`${msg}\n`, (answer) => {
       callback(answer.trim());
     });
   }
