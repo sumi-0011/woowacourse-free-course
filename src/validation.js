@@ -1,7 +1,7 @@
-const { NOT_THOUSAND_WON_UNIT, NOT_INTEGER } = require('../src/errorMessage');
+const { NOT_THOUSAND_WON_UNIT, NOT_INTEGER } = require('./errorMessage');
 
 const validInteger = (value) => {
-  const number = parseInt(value);
+  const number = parseInt(value, 10);
 
   if (Number.isInteger(number)) {
     return true;

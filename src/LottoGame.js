@@ -1,3 +1,4 @@
+/* eslint-disable class-methods-use-this */
 const { Console } = require('@woowacourse/mission-utils');
 const { validInteger, validThousandWonUnit } = require('./validation');
 const { getRandomNumbers, calcPortion } = require('./utils');
@@ -15,31 +16,43 @@ class LottoGame {
 
   startGame() {
     this.readLine('구입금액을 입력해 주세요.', (answer) => {
-      validInteger(answer);
-      validThousandWonUnit(answer);
-      const money = parseInt(answer);
+      const lottoCount = this.getLottoCount(answer);
 
-      const lottoCount = calcPortion(money, LOTTO_PRICE);
       this.publishLottos(lottoCount);
-      this.printLottos();
+
       this.exit();
     });
   }
 
+  getLottoCount(answer) {
+    validInteger(answer);
+    validThousandWonUnit(answer);
+
+    const money = parseInt(answer, 10);
+    const lottoCount = calcPortion(money, LOTTO_PRICE);
+
+    return lottoCount;
+  }
+
   publishLottos(count) {
     const lottos = [];
-    for (let i = 0; i < count; i++) {
+
+    for (let i = 0; i < count; i += 1) {
       const newLotto = this.publishLotto();
       lottos.push(newLotto);
     }
+
     this.lottos = lottos;
+
+    this.print(`${count}개를 구매했습니다.`);
+    this.printLottos();
   }
 
   publishLotto() {
     const randomNumbers = getRandomNumbers(
       LOTTO_COUNT,
       LOTTO_MIN_BOUND,
-      LOTTO_MAX_MOUND
+      LOTTO_MAX_MOUND,
     );
 
     randomNumbers.sort();
