@@ -7,7 +7,7 @@ const {
   validBoundInsideNumber,
   validBoundInsideNumberList,
 } = require('./validation');
-const { getRandomNumbers, calcPortion } = require('./utils');
+const { getRandomNumbers, calcPortion, roundNDigit } = require('./utils');
 const Lotto = require('./Lotto');
 
 const LOTTO_MIN_BOUND = 1;
@@ -23,6 +23,14 @@ const INIT_WINNING_COUNT = {
   5: 0,
 };
 
+const WINNING_AMOUNT = {
+  1: 2000000000,
+  2: 30000000,
+  3: 1500000,
+  4: 50000,
+  5: 5000,
+};
+
 class LottoGame {
   constructor() {
     this.lottos = [];
@@ -31,9 +39,8 @@ class LottoGame {
   }
 
   startGame() {
-    this.readLine('구입금액을 입력해 주세요.', (answer) => {
+    this.readLine('구입금액을 입력해 주세요.\n', (answer) => {
       const lottoCount = this.getLottoCount(answer);
-
       this.publishLottos(lottoCount);
 
       this.inputWinningNumber();
@@ -41,9 +48,9 @@ class LottoGame {
   }
 
   inputWinningNumber() {
-    this.readLine('당첨 번호를 입력해 주세요.', (answer) => {
+    this.readLine('당첨 번호를 입력해 주세요.\n', (answer) => {
+      this.print('\n');
       const numbers = answer.split(',').map((str) => parseInt(str, 10));
-
       validListLength(numbers, 6);
       validBoundInsideNumberList(numbers, 1, 45);
 
@@ -53,14 +60,10 @@ class LottoGame {
     });
   }
 
-  //   guessWin() {
-  //     console.log('guessWin: ', guessWin);
-  //   }
-
   inputBonusNumber() {
-    this.readLine('보너스 번호를 입력해 주세요.', (answer) => {
+    this.readLine('보너스 번호를 입력해 주세요.\n', (answer) => {
+      this.print('\n');
       const bonusNumber = parseInt(answer, 10);
-
       validBoundInsideNumber(bonusNumber, 1, 45);
 
       this.bonus = bonusNumber;
@@ -80,7 +83,38 @@ class LottoGame {
       }
     });
 
-    console.log('winning: ', winning);
+    const earningRate = this.getEarningsRate(winning);
+
+    this.printWinningDetail(winning);
+    this.printEarningRate(earningRate);
+
+    this.exit();
+  }
+
+  printWinningDetail(winning) {
+    this.print('당첨 통계');
+    this.print('---');
+    this.print(`3개 일치 (5,000원) - ${winning[5]}개`);
+    this.print(`4개 일치 (50,000원) - ${winning[4]}개`);
+    this.print(`5개 일치 (1,500,000원) - ${winning[3]}개`);
+    this.print(`5개 일치, 보너스 볼 일치 (30,000,000원) - ${winning[2]}개`);
+    this.print(`6개 일치 (2,000,000,000원) - ${winning[1]}개`);
+  }
+
+  printEarningRate(earningRate) {
+    this.print(`총 수익률은 ${earningRate}%입니다.`);
+  }
+
+  getEarningsRate(winning) {
+    const purchaseLottoCount = this.lottos.length;
+    const purchaseMoney = purchaseLottoCount * LOTTO_PRICE;
+
+    let totalAmount = 0;
+
+    Object.keys(winning).forEach((rank) => {
+      totalAmount += winning[rank] * WINNING_AMOUNT[rank];
+    });
+    return roundNDigit((totalAmount / purchaseMoney) * 100, 2);
   }
 
   guessLottoRank(lotto) {
@@ -157,8 +191,10 @@ class LottoGame {
   printLottos() {
     this.lottos.forEach((lotto) => {
       const lottoNumbers = lotto.getNumbers();
-      this.print(lottoNumbers);
+      const printStr = `[${lottoNumbers.join(', ')}]`;
+      this.print(printStr);
     });
+    this.print('\n');
   }
 
   print(msg) {

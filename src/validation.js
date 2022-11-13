@@ -3,6 +3,7 @@ const {
   NOT_INTEGER,
   ERROR_BASIC,
   VALID_INPUT_FAIL,
+  IS_DUPLICATE,
 } = require('./errorMessage');
 
 const validNumber = (...params) => {
@@ -78,6 +79,16 @@ const validBoundInsideNumberList = (numbers, minBound, maxBound) => {
   });
 };
 
+const validNoDuplication = (list) => {
+  const uniqueSet = new Set(list);
+  const uniqueArr = [...uniqueSet];
+  if (list.length === uniqueArr.length) {
+    return true;
+  }
+
+  throw new Error(IS_DUPLICATE);
+};
+
 module.exports = {
   validInteger,
   validThousandWonUnit,
@@ -85,4 +96,5 @@ module.exports = {
   validNumber,
   validListLength,
   validBoundInsideNumberList,
+  validNoDuplication,
 };

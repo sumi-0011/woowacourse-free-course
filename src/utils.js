@@ -9,14 +9,8 @@ const { NOT_NUMBER_DIVISION } = require('./errorMessage');
  * @returns {number[]}
  */
 const getRandomNumbers = (n, minBound = 1, maxBound = 9) => {
-  const randomNumbers = [];
+  const randomNumbers = Random.pickUniqueNumbersInRange(minBound, maxBound, n);
 
-  while (randomNumbers.length < n) {
-    const random = Random.pickNumberInRange(minBound, maxBound);
-    if (!randomNumbers.includes(random)) {
-      randomNumbers.push(random);
-    }
-  }
   return randomNumbers;
 };
 
@@ -46,7 +40,20 @@ const calcPortion = (number, divider) => {
   return parseInt(number / divider, 10);
 };
 
+/**
+ * 소수점 n 자리에서 반올림
+ * @param {number} number
+ * @param {number} n
+ * @returns number
+ */
+const roundNDigit = (number, n) => {
+  const pow = 10 ** n;
+  const result = Math.round(number * pow) / pow;
+  return result;
+};
+
 module.exports = {
   getRandomNumbers,
   calcPortion,
+  roundNDigit,
 };
