@@ -36,10 +36,17 @@ class LottoGame {
       const numbers = answer.split(',').map((str) => parseInt(str, 10));
 
       validListLength(numbers, 6);
-      validNumber(...numbers);
       validBoundInsideNumberList(numbers, 1, 45);
 
-      this.exit();
+      this.inputBonusNumber();
+    });
+  }
+
+  inputBonusNumber() {
+    this.readLine('보너스 번호를 입력해 주세요.', (answer) => {
+      const bonusNumber = parseInt(answer, 10);
+
+      validBoundInsideNumber(bonusNumber, 1, 45);
     });
   }
 
