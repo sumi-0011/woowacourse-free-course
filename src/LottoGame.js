@@ -1,6 +1,13 @@
 /* eslint-disable class-methods-use-this */
 const { Console } = require('@woowacourse/mission-utils');
-const { validInteger, validThousandWonUnit } = require('./validation');
+const {
+  validInteger,
+  validThousandWonUnit,
+  validListLength,
+  validNumber,
+  validBoundInsideNumber,
+  validBoundInsideNumberList,
+} = require('./validation');
 const { getRandomNumbers, calcPortion } = require('./utils');
 const Lotto = require('./Lotto');
 
@@ -19,6 +26,18 @@ class LottoGame {
       const lottoCount = this.getLottoCount(answer);
 
       this.publishLottos(lottoCount);
+
+      this.inputWinningNumber();
+    });
+  }
+
+  inputWinningNumber() {
+    this.readLine('당첨 번호를 입력해 주세요.', (answer) => {
+      const numbers = answer.split(',').map((str) => parseInt(str, 10));
+
+      validListLength(numbers, 6);
+      validNumber(...numbers);
+      validBoundInsideNumberList(numbers, 1, 45);
 
       this.exit();
     });
