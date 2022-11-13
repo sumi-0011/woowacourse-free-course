@@ -1,5 +1,9 @@
 const { Random } = require('@woowacourse/mission-utils');
-const { CONVERT_TO_NUMBER_FAIL, NOT_INTEGER } = require('../src/errorMessage');
+const {
+  CONVERT_TO_NUMBER_FAIL,
+  NOT_INTEGER,
+  NOT_NUMBER_DIVISION,
+} = require('../src/errorMessage');
 
 /**
  *  minBound ~ maxBound 사이의 n개의 서로 다른 랜덤한 숫자 생성
@@ -40,6 +44,9 @@ const convertStringToNumber = (str) => {
  * @returns
  */
 const calcPortion = (number, divider) => {
+  if (Number.isNaN(number) || Number.isNaN(divider)) {
+    throw new Error(NOT_NUMBER_DIVISION);
+  }
   return parseInt(number / divider);
 };
 
