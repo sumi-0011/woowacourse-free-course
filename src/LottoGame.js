@@ -37,15 +37,19 @@ class LottoGame {
   }
 
   startGame() {
+    this.#purchaseLottoStep();
+  }
+
+  #purchaseLottoStep() {
     this.#readLine('구입금액을 입력해 주세요.', (answer) => {
       const lottoCount = this.#getLottoCount(answer);
       this.#publishLottos(lottoCount);
 
-      this.#inputWinningNumber();
+      this.#inputWinningNumberStep();
     });
   }
 
-  #inputWinningNumber() {
+  #inputWinningNumberStep() {
     this.#readLine('당첨 번호를 입력해 주세요.', (answer) => {
       const numbers = answer.split(',').map((str) => convertToInteger(str));
 
@@ -55,11 +59,11 @@ class LottoGame {
 
       this.#winningNumber = [...numbers];
 
-      this.#inputBonusNumber();
+      this.#inputBonusNumberStep();
     });
   }
 
-  #inputBonusNumber() {
+  #inputBonusNumberStep() {
     this.#readLine('보너스 번호를 입력해 주세요.', (answer) => {
       const bonusNumber = convertToInteger(answer);
 
@@ -68,8 +72,18 @@ class LottoGame {
 
       this.#bonus = bonusNumber;
 
-      this.#guessWinningDetails();
+      this.#guessWinningDetailStep();
     });
+  }
+
+  #guessWinningDetailStep() {
+    const winning = this.#getWinningRankCount();
+    const earningRate = this.#getEarningsRate(winning);
+
+    this.#printWinningDetail(winning);
+    this.#printEarningRate(earningRate);
+
+    this.#exit();
   }
 
   #publishLottos(count) {
@@ -106,16 +120,6 @@ class LottoGame {
     const lottoCount = calcPortion(money, LOTTO_PRICE);
 
     return lottoCount;
-  }
-
-  #guessWinningDetails() {
-    const winning = this.#getWinningRankCount();
-    const earningRate = this.#getEarningsRate(winning);
-
-    this.#printWinningDetail(winning);
-    this.#printEarningRate(earningRate);
-
-    this.#exit();
   }
 
   #getWinningRankCount() {
