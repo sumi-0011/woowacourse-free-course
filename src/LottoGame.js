@@ -34,48 +34,38 @@ class LottoGame {
   }
 
   startGame() {
-    this.#purchaseLottoStep();
+    this.#inputPurchaseMoney();
   }
 
-  #purchaseLottoStep() {
+  #inputPurchaseMoney() {
     this.#readLine('구입금액을 입력해 주세요.', (answer) => {
-      validPurchaseLotto(answer);
+      this.purchaseLottoStep(answer);
 
-      const lottoCount = this.#getLottoCount(answer);
+      this.#printLottos();
 
-      this.#publishLottos(lottoCount);
-
-      this.#inputWinningNumberStep();
+      this.#inputWinningNumber();
     });
   }
 
-  #inputWinningNumberStep() {
+  #inputWinningNumber() {
     this.#readLine('당첨 번호를 입력해 주세요.', (answer) => {
-      const numbers = answer.split(',').map((str) => convertToInteger(str));
+      this.#winningNumberStep(answer);
 
-      validInputWinningNumber(numbers);
-
-      this.#winningNumber = [...numbers];
-
-      this.#inputBonusNumberStep();
+      this.#inputBonusNumber();
     });
   }
 
-  #inputBonusNumberStep() {
+  #inputBonusNumber() {
     this.#readLine('보너스 번호를 입력해 주세요.', (answer) => {
-      const bonusNumber = convertToInteger(answer);
+      this.#bonusNumberStep(answer);
 
-      validInputBonusNumber(this.#winningNumber, bonusNumber);
-
-      this.#bonus = bonusNumber;
-
-      this.#guessWinningDetailStep();
+      this.#guessWinningDetail();
     });
   }
 
-  #guessWinningDetailStep() {
-    const winning = this.#getWinningRankCount();
-    const earningRate = this.#getEarningsRate(winning);
+  #guessWinningDetail() {
+    const { winning, totalAmount } = this.getWinningRankCount();
+    const earningRate = this.getEarningsRate(totalAmount);
 
     this.#printWinningDetail(winning);
     this.#printEarningRate(earningRate);
@@ -83,21 +73,43 @@ class LottoGame {
     this.#exit();
   }
 
-  #publishLottos(count) {
+  purchaseLottoStep(answer) {
+    validPurchaseLotto(answer);
+
+    const money = convertToInteger(answer);
+    const lottoCount = calcPortion(money, LOTTO_PRICE);
+
+    this.#lottos = this.publishLottos(lottoCount);
+  }
+
+  #winningNumberStep(answer) {
+    const numbers = answer.split(',').map((str) => convertToInteger(str));
+
+    validInputWinningNumber(numbers);
+
+    this.#winningNumber = [...numbers];
+  }
+
+  #bonusNumberStep(answer) {
+    const bonusNumber = convertToInteger(answer);
+
+    validInputBonusNumber(this.#winningNumber, bonusNumber);
+
+    this.#bonus = bonusNumber;
+  }
+
+  publishLottos(count) {
     const lottos = [];
 
     for (let i = 0; i < count; i += 1) {
-      const newLotto = this.#publishLotto();
+      const newLotto = this.publishLotto();
       lottos.push(newLotto);
     }
 
-    this.#lottos = lottos;
-
-    this.#print(`${count}개를 구매했습니다.`);
-    this.#printLottos();
+    return lottos;
   }
 
-  #publishLotto() {
+  publishLotto() {
     const randomNumbers = getRandomNumbers(
       LOTTO_COUNT,
       LOTTO_MIN_BOUND,
@@ -110,72 +122,39 @@ class LottoGame {
     return lotto;
   }
 
-  #getLottoCount(answer) {
-    const money = convertToInteger(answer);
-    const lottoCount = calcPortion(money, LOTTO_PRICE);
-
-    return lottoCount;
-  }
-
-  #getWinningRankCount() {
+  getWinningRankCount() {
     const winning = { ...INIT_WINNING_COUNT };
-
-    this.#lottos.forEach((lotto) => {
-      const rank = this.#guessLottoRank(lotto);
-
-      if (rank !== -1) {
-        winning[rank] += 1;
-      }
-    });
-
-    return winning;
-  }
-
-  #checkMatchNumberCount(lottoNumber, winningNumber) {
-    const intersection = getIntersectionList(lottoNumber, winningNumber);
-
-    return intersection.length;
-  }
-
-  #guessLottoRank(lotto) {
-    const lottoNumbers = lotto.getNumbers();
-    const isMatchBonus =
-      lottoNumbers.findIndex((num) => num === this.#bonus) !== -1;
-
-    const matchCount = this.#checkMatchNumberCount(
-      lottoNumbers,
-      this.#winningNumber,
-    );
-
-    const result = this.#getWinningRank(matchCount, isMatchBonus);
-    return result;
-  }
-
-  #getWinningRank(matchCount, isMatchBonus) {
-    switch (matchCount) {
-      case 6:
-        return 1;
-      case 5:
-        return isMatchBonus ? 2 : 3;
-      case 4:
-        return 4;
-      case 3:
-        return 5;
-      default:
-        return -1;
-    }
-  }
-
-  #getEarningsRate(winning) {
-    const purchaseLottoCount = this.#lottos.length;
-    const purchaseMoney = purchaseLottoCount * LOTTO_PRICE;
-
     let totalAmount = 0;
 
-    Object.keys(winning).forEach((rank) => {
-      totalAmount += winning[rank] * WINNING_AMOUNT[rank];
+    this.#lottos.forEach((lotto) => {
+      const { rank, money } = lotto.getWinningDetail(
+        this.#winningNumber,
+        this.#bonus,
+      );
+      totalAmount += money;
+
+      rank !== -1 ? (winning[rank] += 1) : null;
     });
+
+    return { winning, totalAmount };
+  }
+
+  getEarningsRate(totalAmount) {
+    const lottoCount = this.#lottos.length;
+    const purchaseMoney = lottoCount * LOTTO_PRICE;
+
     return roundNDigit((totalAmount / purchaseMoney) * 100, 2);
+  }
+
+  #printLottos() {
+    const lottoCount = this.#lottos.length;
+    this.#print(`${lottoCount}개를 구매했습니다.`);
+
+    this.#lottos.forEach((lotto) => {
+      this.#print(lotto.print());
+    });
+
+    this.#print('\n');
   }
 
   #printWinningDetail(winning) {
@@ -190,15 +169,6 @@ class LottoGame {
 
   #printEarningRate(earningRate) {
     this.#print(`총 수익률은 ${earningRate}%입니다.`);
-  }
-
-  #printLottos() {
-    this.#lottos.forEach((lotto) => {
-      const lottoNumbers = lotto.getNumbers();
-      const printStr = `[${lottoNumbers.join(', ')}]`;
-      this.#print(printStr);
-    });
-    this.#print('\n');
   }
 
   #print(msg) {

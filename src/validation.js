@@ -1,7 +1,6 @@
 const {
   NOT_THOUSAND_WON_UNIT,
   NOT_INTEGER,
-  VALID_INPUT_FAIL,
   IS_DUPLICATE,
 } = require('./errorMessage');
 
@@ -31,7 +30,7 @@ const validListLength = (list, length) => {
     return true;
   }
 
-  throw new Error(VALID_INPUT_FAIL);
+  throw new Error(`[ERROR] 로또 번호는 ${length}개여야 합니다.`);
 };
 
 /**
