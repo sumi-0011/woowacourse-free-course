@@ -49,7 +49,7 @@ class LottoGame {
 
   #inputWinningNumber() {
     this.#readLine('당첨 번호를 입력해 주세요.', (answer) => {
-      this.#winningNumberStep(answer);
+      this.winningNumberStep(answer);
 
       this.#inputBonusNumber();
     });
@@ -57,7 +57,7 @@ class LottoGame {
 
   #inputBonusNumber() {
     this.#readLine('보너스 번호를 입력해 주세요.', (answer) => {
-      this.#bonusNumberStep(answer);
+      this.bonusNumberStep(answer);
 
       this.#guessWinningDetail();
     });
@@ -80,14 +80,7 @@ class LottoGame {
     this.#lottos = this.publishLottos(lottoCount);
   }
 
-  getLottoCount(answer) {
-    const money = convertToInteger(answer);
-    const lottoCount = calcPortion(money, LOTTO_PRICE);
-
-    return lottoCount;
-  }
-
-  #winningNumberStep(answer) {
+  winningNumberStep(answer) {
     const numbers = answer.split(',').map((str) => convertToInteger(str));
 
     validInputWinningNumber(numbers);
@@ -95,7 +88,7 @@ class LottoGame {
     this.#winningNumber = [...numbers];
   }
 
-  #bonusNumberStep(answer) {
+  bonusNumberStep(answer) {
     const bonusNumber = convertToInteger(answer);
 
     validInputBonusNumber(this.#winningNumber, bonusNumber);
@@ -125,6 +118,13 @@ class LottoGame {
 
     const lotto = new Lotto(randomNumbers);
     return lotto;
+  }
+
+  getLottoCount(answer) {
+    const money = convertToInteger(answer);
+    const lottoCount = calcPortion(money, LOTTO_PRICE);
+
+    return lottoCount;
   }
 
   getWinningRankCount() {
