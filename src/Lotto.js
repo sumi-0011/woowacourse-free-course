@@ -3,13 +3,7 @@ const {
   validListLength,
   validBoundInsideNumber,
 } = require('./validation');
-const {
-  getRandomNumbers,
-  calcPortion,
-  roundNDigit,
-  getIntersectionList,
-  convertToInteger,
-} = require('./utils');
+const { getIntersectionList } = require('./utils');
 const {
   WINNING_AMOUNT,
   LOTTO_COUNT,

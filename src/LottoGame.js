@@ -1,4 +1,3 @@
-/* eslint-disable class-methods-use-this */
 const { Console } = require('@woowacourse/mission-utils');
 const {
   validPurchaseLotto,
@@ -64,8 +63,12 @@ class LottoGame {
   }
 
   #guessWinningDetail() {
-    const { winning, totalAmount } = this.getWinningRankCount();
-    const earningRate = this.getEarningsRate(totalAmount);
+    const { winning, totalAmount } = this.getWinningRank(
+      this.#lottos,
+      this.#winningNumber,
+      this.#bonus,
+    );
+    const earningRate = this.getEarningsRate(this.#lottos.length, totalAmount);
 
     this.#printWinningDetail(winning);
     this.#printEarningRate(earningRate);
@@ -100,14 +103,14 @@ class LottoGame {
     const lottos = [];
 
     for (let i = 0; i < count; i += 1) {
-      const newLotto = this.publishLotto();
+      const newLotto = this.#publishLotto();
       lottos.push(newLotto);
     }
 
     return lottos;
   }
 
-  publishLotto() {
+  #publishLotto() {
     const randomNumbers = getRandomNumbers(
       LOTTO_COUNT,
       LOTTO_MIN_BOUND,
@@ -127,15 +130,12 @@ class LottoGame {
     return lottoCount;
   }
 
-  getWinningRankCount() {
+  getWinningRank(lottos, winningNumber, bonus) {
     const winning = { ...INIT_WINNING_COUNT };
     let totalAmount = 0;
 
-    this.#lottos.forEach((lotto) => {
-      const { rank, money } = lotto.getWinningDetail(
-        this.#winningNumber,
-        this.#bonus,
-      );
+    lottos.forEach((lotto) => {
+      const { rank, money } = lotto.getWinningDetail(winningNumber, bonus);
       totalAmount += money;
 
       rank !== -1 ? (winning[rank] += 1) : null;
@@ -144,8 +144,7 @@ class LottoGame {
     return { winning, totalAmount };
   }
 
-  getEarningsRate(totalAmount) {
-    const lottoCount = this.#lottos.length;
+  getEarningsRate(lottoCount, totalAmount) {
     const purchaseMoney = lottoCount * LOTTO_PRICE;
 
     return roundNDigit((totalAmount / purchaseMoney) * 100, 2);
