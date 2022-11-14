@@ -76,10 +76,15 @@ class LottoGame {
   purchaseLottoStep(answer) {
     validPurchaseLotto(answer);
 
+    const lottoCount = this.getLottoCount(answer);
+    this.#lottos = this.publishLottos(lottoCount);
+  }
+
+  getLottoCount(answer) {
     const money = convertToInteger(answer);
     const lottoCount = calcPortion(money, LOTTO_PRICE);
 
-    this.#lottos = this.publishLottos(lottoCount);
+    return lottoCount;
   }
 
   #winningNumberStep(answer) {
