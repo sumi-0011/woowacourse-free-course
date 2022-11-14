@@ -1,14 +1,9 @@
 const { Console } = require('@woowacourse/mission-utils');
-const {
-  validPurchaseLotto,
-  validInputWinningNumber,
-  validInputBonusNumber,
-} = require('./validation');
+const { validPurchaseLotto } = require('./validation');
 const {
   getRandomNumbers,
   calcPortion,
   roundNDigit,
-  getIntersectionList,
   convertToInteger,
 } = require('./utils');
 const {
@@ -17,19 +12,16 @@ const {
   LOTTO_COUNT,
   LOTTO_PRICE,
   INIT_WINNING_COUNT,
-  WINNING_AMOUNT,
 } = require('./Constant');
 const Lotto = require('./Lotto');
+const LottoManager = require('./LottoManager');
 
 class LottoGame {
   #lottos;
-  #winningNumber;
-  #bonus;
 
   constructor() {
     this.#lottos = [];
-    this.#winningNumber = [];
-    this.#bonus = -1;
+    this.lottoManager = new LottoManager();
   }
 
   startGame() {
@@ -47,26 +39,22 @@ class LottoGame {
   }
 
   #inputWinningNumber() {
-    this.#readLine('당첨 번호를 입력해 주세요.', (answer) => {
-      this.winningNumberStep(answer);
-
+    this.lottoManager.inputWinningNumber(() => {
       this.#inputBonusNumber();
     });
   }
 
   #inputBonusNumber() {
-    this.#readLine('보너스 번호를 입력해 주세요.', (answer) => {
-      this.bonusNumberStep(answer);
-
+    this.lottoManager.inputBouseNumber(() => {
       this.#guessWinningDetail();
     });
   }
 
   #guessWinningDetail() {
-    const { winning, totalAmount } = this.getWinningRank(
+    const { winning, totalAmount } = this.getWinningDetails(
       this.#lottos,
-      this.#winningNumber,
-      this.#bonus,
+      this.lottoManager.getWinningNumber(),
+      this.lottoManager.getBouseNumber(),
     );
     const earningRate = this.getEarningsRate(this.#lottos.length, totalAmount);
 
@@ -81,22 +69,6 @@ class LottoGame {
 
     const lottoCount = this.getLottoCount(answer);
     this.#lottos = this.publishLottos(lottoCount);
-  }
-
-  winningNumberStep(answer) {
-    const numbers = answer.split(',').map((str) => convertToInteger(str));
-
-    validInputWinningNumber(numbers);
-
-    this.#winningNumber = [...numbers];
-  }
-
-  bonusNumberStep(answer) {
-    const bonusNumber = convertToInteger(answer);
-
-    validInputBonusNumber(this.#winningNumber, bonusNumber);
-
-    this.#bonus = bonusNumber;
   }
 
   publishLottos(count) {
@@ -130,7 +102,7 @@ class LottoGame {
     return lottoCount;
   }
 
-  getWinningRank(lottos, winningNumber, bonus) {
+  getWinningDetails(lottos, winningNumber, bonus) {
     const winning = { ...INIT_WINNING_COUNT };
     let totalAmount = 0;
 

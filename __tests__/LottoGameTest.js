@@ -1,4 +1,3 @@
-/* eslint-disable no-undef */
 const Lotto = require('../src/Lotto');
 const LottoGame = require('../src/LottoGame');
 
@@ -44,64 +43,6 @@ describe('로또 게임 클래스 테스트 / 구매 금액 입력', () => {
   });
 });
 
-describe('로또 게임 클래스 테스트 / 당첨 번호 입력', () => {
-  const lottoGame = new LottoGame();
-
-  test('당첨 번호 입력이 모두 정수가 아니면 예외가 발생한다. ', () => {
-    const answer = '1,2,3,4,5,a';
-
-    expect(() => {
-      lottoGame.winningNumberStep(answer);
-    }).toThrow('[ERROR]');
-  });
-
-  test('당첨 번호 입력이 1~45 사이의 입력이 아니면 예외가 발생한다.', () => {
-    const answer = '1,2,3,4,5,80';
-
-    expect(() => {
-      lottoGame.winningNumberStep(answer);
-    }).toThrow('[ERROR]');
-  });
-
-  test('당첨 번호 입력의 개수가 6개가 아니면 예외가 발생한다. ', () => {
-    const answer = '1,2,3,4,5,6,7';
-
-    expect(() => {
-      lottoGame.winningNumberStep(answer);
-    }).toThrow('[ERROR]');
-  });
-
-  test('당첨 번호 입력에 중복이 있으면 예외가 발생한다.', () => {
-    const answer = '1,2,3,4,5,5';
-
-    expect(() => {
-      lottoGame.winningNumberStep(answer);
-    }).toThrow('[ERROR]');
-  });
-});
-
-describe('로또 게임 클래스 테스트 / 보너스 번호 입력', () => {
-  const lottoGame = new LottoGame();
-
-  test('보너스 번호가 1~45 사이의 입력이 아니라면 예외가 발생한다.', () => {
-    const answer = '80';
-
-    expect(() => {
-      lottoGame.bonusNumberStep(answer);
-    }).toThrow('[ERROR]');
-  });
-
-  test('당첨번호와 보너스번호에 중복이 존재하면 예외가 발생한다. ', () => {
-    const winningNumber = '1,2,3,4,5,10';
-    const answer = '10';
-    lottoGame.winningNumberStep(winningNumber);
-
-    expect(() => {
-      lottoGame.bonusNumberStep(answer);
-    }).toThrow('[ERROR]');
-  });
-});
-
 describe('로또 게임 클래스 테스트 / 당첨 내역 ', () => {
   const lottoGame = new LottoGame();
 
@@ -125,7 +66,7 @@ describe('로또 게임 클래스 테스트 / 당첨 내역 ', () => {
     };
     const resultTotalAmount = 2033050000;
 
-    const { winning, totalAmount } = lottoGame.getWinningRank(
+    const { winning, totalAmount } = lottoGame.getWinningDetails(
       lottos,
       winningNumber,
       bonusNumber,

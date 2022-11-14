@@ -1,6 +1,3 @@
-/* eslint-disable no-undef */
-/* eslint-disable implicit-arrow-linebreak */
-
 const MissionUtils = require('@woowacourse/mission-utils');
 const App = require('../src/App');
 
