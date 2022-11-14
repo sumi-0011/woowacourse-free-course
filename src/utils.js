@@ -1,5 +1,17 @@
 const { Random } = require('@woowacourse/mission-utils');
 const { NOT_NUMBER_DIVISION } = require('./errorMessage');
+const { validInteger } = require('./validation');
+
+/**
+ * 정수가 아니면 에러, 맞으면 정수 반환
+ * @param {string} value
+ * @returns {number} 10진수 숫자
+ */
+const convertToInteger = (value) => {
+  validInteger(value);
+
+  return Number.parseInt(value, 10);
+};
 
 /**
  *  minBound ~ maxBound 사이의 n개의 서로 다른 랜덤한 숫자 생성
@@ -13,19 +25,6 @@ const getRandomNumbers = (n, minBound = 1, maxBound = 9) => {
 
   return randomNumbers;
 };
-
-// /**
-//  * @param {string} str
-//  * @returns {number}
-//  */
-// const convertStringToNumber = (str) => {
-//   const res = Number(str);
-
-//   if (Number.isNaN(res)) {
-//     throw new Error(CONVERT_TO_NUMBER_FAIL);
-//   }
-//   return res;
-// };
 
 /**
  * 몫 계산
@@ -52,6 +51,12 @@ const roundNDigit = (number, n) => {
   return result;
 };
 
+/**
+ * 두 리스트의 교집합 리스트
+ * @param {any[]} list1
+ * @param {any[]} list2
+ * @returns {any[]}
+ */
 const getIntersectionList = (list1, list2) => {
   const intersectionList = list1.filter((it) => list2.includes(it));
   return intersectionList;
@@ -62,4 +67,5 @@ module.exports = {
   calcPortion,
   roundNDigit,
   getIntersectionList,
+  convertToInteger,
 };
