@@ -1,0 +1,29 @@
+const LOTTO_MIN_BOUND = 1;
+const LOTTO_MAX_MOUND = 45;
+const LOTTO_COUNT = 6;
+const LOTTO_PRICE = 1000;
+
+const INIT_WINNING_COUNT = {
+  1: 0,
+  2: 0,
+  3: 0,
+  4: 0,
+  5: 0,
+};
+
+const WINNING_AMOUNT = {
+  1: 2000000000,
+  2: 30000000,
+  3: 1500000,
+  4: 50000,
+  5: 5000,
+};
+
+module.exports = {
+  LOTTO_MIN_BOUND,
+  LOTTO_MAX_MOUND,
+  LOTTO_COUNT,
+  LOTTO_PRICE,
+  INIT_WINNING_COUNT,
+  WINNING_AMOUNT,
+};

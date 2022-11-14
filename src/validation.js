@@ -35,9 +35,11 @@ const validListLength = (list, length) => {
  * @returns {boolean | ERROR}
  */
 const validInteger = (value) => {
+  const regex = /^[0-9]+$/;
+
   const number = parseInt(value, 10);
 
-  if (Number.isInteger(number)) {
+  if (regex.test(number)) {
     return true;
   }
 
