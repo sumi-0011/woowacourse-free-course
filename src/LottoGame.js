@@ -1,12 +1,9 @@
 /* eslint-disable class-methods-use-this */
 const { Console } = require('@woowacourse/mission-utils');
 const {
-  validThousandWonUnit,
-  validListLength,
-  validBoundInsideNumber,
-  validBoundInsideNumberList,
-  validNoDuplication,
-  validExistedDuplication,
+  validPurchaseLotto,
+  validInputWinningNumber,
+  validInputBonusNumber,
 } = require('./validation');
 const {
   getRandomNumbers,
@@ -42,7 +39,10 @@ class LottoGame {
 
   #purchaseLottoStep() {
     this.#readLine('구입금액을 입력해 주세요.', (answer) => {
+      validPurchaseLotto(answer);
+
       const lottoCount = this.#getLottoCount(answer);
+
       this.#publishLottos(lottoCount);
 
       this.#inputWinningNumberStep();
@@ -53,9 +53,7 @@ class LottoGame {
     this.#readLine('당첨 번호를 입력해 주세요.', (answer) => {
       const numbers = answer.split(',').map((str) => convertToInteger(str));
 
-      validListLength(numbers, 6);
-      validBoundInsideNumberList(numbers, 1, 45);
-      validNoDuplication(numbers);
+      validInputWinningNumber(numbers);
 
       this.#winningNumber = [...numbers];
 
@@ -67,8 +65,7 @@ class LottoGame {
     this.#readLine('보너스 번호를 입력해 주세요.', (answer) => {
       const bonusNumber = convertToInteger(answer);
 
-      validBoundInsideNumber(bonusNumber, 1, 45);
-      validExistedDuplication(this.#winningNumber, [bonusNumber]);
+      validInputBonusNumber(this.#winningNumber, bonusNumber);
 
       this.#bonus = bonusNumber;
 
@@ -114,8 +111,6 @@ class LottoGame {
   }
 
   #getLottoCount(answer) {
-    validThousandWonUnit(answer);
-
     const money = convertToInteger(answer);
     const lottoCount = calcPortion(money, LOTTO_PRICE);
 
