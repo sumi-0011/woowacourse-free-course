@@ -1,5 +1,4 @@
 const { Console } = require('@woowacourse/mission-utils');
-const { getRandomNumbers } = require('./utils');
 
 const LottoManager = require('./LottoManager');
 const User = require('./User');
@@ -23,6 +22,7 @@ class LottoGame {
   }
 
   #purchaseLottos(purchaseLottoCount) {
+    const lottos = this.lottoManager.publishLottos(purchaseLottoCount);
     this.user.setLottos(lottos);
     this.user.printLottos();
   }
@@ -48,30 +48,6 @@ class LottoGame {
     this.#exit();
   }
 
-
-  publishLottos(count) {
-    const lottos = [];
-
-    for (let i = 0; i < count; i += 1) {
-      const newLotto = this.#publishLotto();
-      lottos.push(newLotto);
-    }
-
-    return lottos;
-  }
-
-  #publishLotto() {
-    const randomNumbers = getRandomNumbers(
-      LOTTO_COUNT,
-      LOTTO_MIN_BOUND,
-      LOTTO_MAX_MOUND,
-    );
-
-    randomNumbers.sort((a, b) => a - b);
-
-    const lotto = new Lotto(randomNumbers);
-    return lotto;
-  }
   #exit() {
     Console.close();
   }

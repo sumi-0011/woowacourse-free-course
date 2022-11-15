@@ -1,9 +1,14 @@
-const { Console } = require('@woowacourse/mission-utils');
 const {
   validInputBonusNumber,
   validInputWinningNumber,
 } = require('./validation');
-const { convertToInteger } = require('./utils');
+const {
+  convertToInteger,
+  getRandomNumbers,
+  readLineConsole,
+} = require('./utils');
+const { LOTTO_MIN_BOUND, LOTTO_MAX_MOUND, LOTTO_COUNT } = require('./Constant');
+const Lotto = require('./Lotto');
 
 class LottoManager {
   #winningNumber;
@@ -15,7 +20,7 @@ class LottoManager {
   }
 
   inputWinningNumber(callback) {
-    this.#readLine('당첨 번호를 입력해 주세요.', (answer) => {
+    readLineConsole('당첨 번호를 입력해 주세요.', (answer) => {
       const numbers = answer.split(',').map((str) => convertToInteger(str));
       this.#setWinningNumber([...numbers]);
 
@@ -24,7 +29,7 @@ class LottoManager {
   }
 
   inputBouseNumber(callback) {
-    this.#readLine('보너스 번호를 입력해 주세요.', (answer) => {
+    readLineConsole('보너스 번호를 입력해 주세요.', (answer) => {
       const bonusNumber = convertToInteger(answer);
 
       this.#setBonusNumber(bonusNumber);
@@ -53,16 +58,28 @@ class LottoManager {
     this.#bonusNumber = bonusNumber;
   }
 
-  #readLine(msg, callback) {
-    Console.readLine(`${msg}\n`, (answer) => {
-      this.#print('\n');
+  publishLottos(count) {
+    const lottos = [];
 
-      callback(answer.trim());
-    });
+    for (let i = 0; i < count; i += 1) {
+      const newLotto = this.#publishLotto();
+      lottos.push(newLotto);
+    }
+
+    return lottos;
   }
 
-  #print(msg) {
-    Console.print(msg);
+  #publishLotto() {
+    const randomNumbers = getRandomNumbers(
+      LOTTO_COUNT,
+      LOTTO_MIN_BOUND,
+      LOTTO_MAX_MOUND,
+    );
+
+    randomNumbers.sort((a, b) => a - b);
+
+    const lotto = new Lotto(randomNumbers);
+    return lotto;
   }
 }
 

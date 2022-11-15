@@ -1,4 +1,3 @@
-const { Console } = require('@woowacourse/mission-utils');
 const { validPurchaseLotto } = require('./validation');
 const {
   calcPortion,
@@ -7,13 +6,7 @@ const {
   readLineConsole,
   printConsole,
 } = require('./utils');
-const {
-  LOTTO_MIN_BOUND,
-  LOTTO_MAX_MOUND,
-  LOTTO_COUNT,
-  LOTTO_PRICE,
-  INIT_WINNING_COUNT,
-} = require('./Constant');
+const { LOTTO_PRICE, INIT_WINNING_COUNT } = require('./Constant');
 
 class User {
   #lottos;

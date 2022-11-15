@@ -3,13 +3,13 @@ const {
   validListLength,
   validBoundInsideNumber,
 } = require('./validation');
-const { getIntersectionList } = require('./utils');
 const {
   WINNING_AMOUNT,
   LOTTO_COUNT,
   LOTTO_MIN_BOUND,
   LOTTO_MAX_MOUND,
 } = require('./Constant');
+const { getIntersectionList } = require('./utils');
 
 class Lotto {
   #numbers;
