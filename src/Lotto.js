@@ -36,6 +36,7 @@ class Lotto {
 
     const rank = this.#getWinningRank(matchCount, isMatchBonus);
     const money = this.#getWinningAmount(rank);
+
     return { rank, money };
   }
 

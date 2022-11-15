@@ -1,6 +1,18 @@
-const { Random } = require('@woowacourse/mission-utils');
+const { Random, Console } = require('@woowacourse/mission-utils');
 const { NOT_NUMBER_DIVISION } = require('./errorMessage');
 const { validInteger } = require('./validation');
+
+const readLineConsole = (msg, callback) => {
+  Console.readLine(`${msg}\n`, (answer) => {
+    printConsole('\n');
+
+    callback(answer.trim());
+  });
+};
+
+const printConsole = (msg) => {
+  Console.print(msg);
+};
 
 /**
  * 정수가 아니면 에러, 맞으면 정수 반환
@@ -36,6 +48,7 @@ const calcPortion = (number, divider) => {
   if (Number.isNaN(number) || Number.isNaN(divider)) {
     throw new Error(NOT_NUMBER_DIVISION);
   }
+
   return parseInt(number / divider, 10);
 };
 
@@ -68,4 +81,6 @@ module.exports = {
   roundNDigit,
   getIntersectionList,
   convertToInteger,
+  readLineConsole,
+  printConsole,
 };
