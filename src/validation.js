@@ -1,36 +1,27 @@
 const {
-  NOT_THOUSAND_WON_UNIT,
+  NOT_LOTTO_PRICE_UNIT,
   NOT_INTEGER,
   IS_DUPLICATE,
-} = require('./errorMessage');
-
-/**
- * parameter로 들어온 값들이 모두 Number형인지 확인
- * @param  {string[]} ...params
- * @returns {void | ERROR}
- */
-const validNumber = (...params) => {
-  params.forEach((param) => {
-    if (Number.isNaN(parseInt(param, 10))) {
-      throw new Error(`[ERROR] ${param}은 숫자가 아닙니다.`);
-    }
-    if (typeof param !== 'number') {
-      throw new Error(`[ERROR] ${param}은 숫자가 아닙니다.`);
-    }
-  });
-};
+  VALID_LIST_LENGTH_MSG,
+  VALID_INPUT_FAIL,
+  LOTTO_PRICE,
+  LOTTO_MIN_BOUND,
+  LOTTO_MAX_MOUND,
+  LOTTO_COUNT,
+  VALID_LOTTO_COUNT_MSG,
+} = require('./Constant');
 
 /**
  * @param {any[]} list
  * @param {number} length
+ * @param {string} errMessage
  * @returns {boolean | ERROR}
  */
-const validListLength = (list, length) => {
+const validListLength = (list, length, errMessage) => {
   if (list.length === length) {
     return true;
   }
-
-  throw new Error(`[ERROR] 로또 번호는 ${length}개여야 합니다.`);
+  throw new Error(errMessage ?? VALID_LIST_LENGTH_MSG);
 };
 
 /**
@@ -39,7 +30,6 @@ const validListLength = (list, length) => {
  */
 const validInteger = (value) => {
   const regex = /^[0-9]+$/;
-
   const number = parseInt(value, 10);
 
   if (regex.test(number)) {
@@ -54,12 +44,12 @@ const validInteger = (value) => {
  * @param {number} value
  * @returns {boolean | ERROR}
  */
-const validThousandWonUnit = (value) => {
+const validLottoPriceUnit = (value) => {
   if (value % 1000 === 0) {
     return true;
   }
 
-  throw new Error(NOT_THOUSAND_WON_UNIT);
+  throw new Error(NOT_LOTTO_PRICE_UNIT);
 };
 
 /**
@@ -75,7 +65,7 @@ const validHigherNumber = (str, criterion) => {
   if (number >= criterion) {
     return true;
   }
-  return new Error(`[ERROR] 입력이 ${criterion} 이상이여야 합니다.`);
+  return new Error(VALID_INPUT_FAIL);
 };
 
 /**
@@ -85,7 +75,7 @@ const validHigherNumber = (str, criterion) => {
  * @returns {boolean | ERROR}
  */
 const validBoundInsideNumber = (number, minBound, maxBound) => {
-  validNumber(number, minBound, maxBound);
+  validInteger(number, minBound, maxBound);
 
   if (number >= minBound && number <= maxBound) {
     return true;
@@ -101,7 +91,7 @@ const validBoundInsideNumber = (number, minBound, maxBound) => {
  * @return void
  */
 const validBoundInsideNumberList = (numbers, minBound, maxBound) => {
-  validNumber(minBound, maxBound);
+  validInteger(minBound, maxBound);
 
   numbers.forEach((number) => {
     validBoundInsideNumber(number, minBound, maxBound);
@@ -140,26 +130,32 @@ const validExistedDuplication = (list1, list2) => {
 
 const validPurchaseLotto = (answer) => {
   validInteger(answer);
-  validThousandWonUnit(answer);
-  validHigherNumber(answer, 1000);
+  validLottoPriceUnit(answer);
+  validHigherNumber(answer, LOTTO_PRICE);
 };
 
 const validInputWinningNumber = (numbers) => {
-  validListLength(numbers, 6);
-  validBoundInsideNumberList(numbers, 1, 45);
+  validListLength(numbers, LOTTO_COUNT, VALID_LOTTO_COUNT_MSG);
+  validBoundInsideNumberList(numbers, LOTTO_MIN_BOUND, LOTTO_MAX_MOUND);
   validNoDuplication(numbers);
 };
 
 const validInputBonusNumber = (winningNumbers, bonusNumber) => {
-  validBoundInsideNumber(bonusNumber, 1, 45);
+  validBoundInsideNumber(bonusNumber, LOTTO_MIN_BOUND, LOTTO_MAX_MOUND);
   validExistedDuplication(winningNumbers, [bonusNumber]);
+};
+
+const validLottoNumber = (numbers) => {
+  validListLength(numbers, LOTTO_COUNT, VALID_LOTTO_COUNT_MSG);
+  validNoDuplication(numbers);
+  numbers.forEach((number) => {
+    validBoundInsideNumber(number, LOTTO_MIN_BOUND, LOTTO_MAX_MOUND);
+  });
 };
 
 module.exports = {
   validInteger,
-  validThousandWonUnit,
   validBoundInsideNumber,
-  validNumber,
   validListLength,
   validBoundInsideNumberList,
   validNoDuplication,
@@ -167,4 +163,5 @@ module.exports = {
   validPurchaseLotto,
   validInputWinningNumber,
   validInputBonusNumber,
+  validLottoNumber,
 };

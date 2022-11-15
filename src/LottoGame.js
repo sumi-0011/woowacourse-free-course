@@ -22,8 +22,7 @@ class LottoGame {
   }
 
   #purchaseLottos(purchaseLottoCount) {
-    const lottos = this.lottoManager.publishLottos(purchaseLottoCount);
-    this.user.setLottos(lottos);
+    this.user.setLottos(this.lottoManager.publishLottos(purchaseLottoCount));
     this.user.printLottos();
   }
 

@@ -10,17 +10,13 @@ const { LOTTO_PRICE, INIT_WINNING_COUNT } = require('./Constant');
 
 class User {
   #lottos;
+
   constructor() {
     this.#lottos = [];
   }
 
   setLottos(lottos) {
-    // TODO:  로또 validation
     this.#lottos = lottos;
-  }
-
-  getLottos() {
-    return this.#lottos;
   }
 
   inputPurchaseMoney(callback) {
@@ -28,6 +24,7 @@ class User {
       validPurchaseLotto(answer);
 
       const purchaseLottoCount = this.getLottoCount(answer);
+
       callback(purchaseLottoCount);
     });
   }
@@ -50,23 +47,24 @@ class User {
   }
 
   guessWinningDetail(winningNumber, bonusNumber) {
-    const lottos = this.#lottos;
-    const { winning, totalAmount } = this.getWinningDetails(
-      lottos,
+    const { winning, totalAmount } = this.#getWinningDetails(
       winningNumber,
       bonusNumber,
     );
-    const earningRate = this.getEarningsRate(totalAmount);
+    const earningRate = this.#getEarningsRate(totalAmount);
 
     return { winning, earningRate };
   }
 
-  getWinningDetails(lottos, winningNumber, bonus) {
+  #getWinningDetails(winningNumber, bonusNumber) {
     const winning = { ...INIT_WINNING_COUNT };
     let totalAmount = 0;
 
-    lottos.forEach((lotto) => {
-      const { rank, money } = lotto.getWinningDetail(winningNumber, bonus);
+    this.#lottos.forEach((lotto) => {
+      const { rank, money } = lotto.getWinningDetail(
+        winningNumber,
+        bonusNumber,
+      );
       totalAmount += money;
 
       rank !== -1 ? (winning[rank] += 1) : null;
@@ -75,7 +73,7 @@ class User {
     return { winning, totalAmount };
   }
 
-  getEarningsRate(totalAmount) {
+  #getEarningsRate(totalAmount) {
     const purchaseMoney = this.#lottos.length * LOTTO_PRICE;
 
     return roundNDigit((totalAmount / purchaseMoney) * 100, 2);

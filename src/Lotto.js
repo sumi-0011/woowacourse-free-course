@@ -1,14 +1,5 @@
-const {
-  validNoDuplication,
-  validListLength,
-  validBoundInsideNumber,
-} = require('./validation');
-const {
-  WINNING_AMOUNT,
-  LOTTO_COUNT,
-  LOTTO_MIN_BOUND,
-  LOTTO_MAX_MOUND,
-} = require('./Constant');
+const { validLottoNumber } = require('./validation');
+const { WINNING_AMOUNT } = require('./Constant');
 const { getIntersectionList } = require('./utils');
 
 class Lotto {
@@ -20,19 +11,14 @@ class Lotto {
   }
 
   validate(numbers) {
-    validListLength(numbers, LOTTO_COUNT);
-    validNoDuplication(numbers);
-    numbers.forEach((number) => {
-      validBoundInsideNumber(number, LOTTO_MIN_BOUND, LOTTO_MAX_MOUND);
-    });
+    validLottoNumber(numbers);
   }
 
   getWinningDetail(winningNumber, bonusNumber) {
-    const lottoNumbers = this.#numbers;
     const isMatchBonus =
-      lottoNumbers.findIndex((num) => num === bonusNumber) !== -1;
+      this.#numbers.findIndex((num) => num === bonusNumber) !== -1;
 
-    const matchCount = getIntersectionList(lottoNumbers, winningNumber).length;
+    const matchCount = getIntersectionList(this.#numbers, winningNumber).length;
 
     const rank = this.#getWinningRank(matchCount, isMatchBonus);
     const money = this.#getWinningAmount(rank);

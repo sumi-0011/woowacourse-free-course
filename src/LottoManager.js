@@ -22,6 +22,7 @@ class LottoManager {
   inputWinningNumber(callback) {
     readLineConsole('당첨 번호를 입력해 주세요.', (answer) => {
       const numbers = answer.split(',').map((str) => convertToInteger(str));
+
       this.#setWinningNumber([...numbers]);
 
       callback();
@@ -36,6 +37,17 @@ class LottoManager {
 
       callback();
     });
+  }
+
+  publishLottos(count) {
+    const lottos = [];
+
+    for (let i = 0; i < count; i += 1) {
+      const newLotto = this.#publishLotto();
+      lottos.push(newLotto);
+    }
+
+    return lottos;
   }
 
   getBouseNumber() {
@@ -58,17 +70,6 @@ class LottoManager {
     this.#bonusNumber = bonusNumber;
   }
 
-  publishLottos(count) {
-    const lottos = [];
-
-    for (let i = 0; i < count; i += 1) {
-      const newLotto = this.#publishLotto();
-      lottos.push(newLotto);
-    }
-
-    return lottos;
-  }
-
   #publishLotto() {
     const randomNumbers = getRandomNumbers(
       LOTTO_COUNT,
@@ -79,6 +80,7 @@ class LottoManager {
     randomNumbers.sort((a, b) => a - b);
 
     const lotto = new Lotto(randomNumbers);
+
     return lotto;
   }
 }

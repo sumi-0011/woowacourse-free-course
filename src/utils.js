@@ -1,5 +1,5 @@
 const { Random, Console } = require('@woowacourse/mission-utils');
-const { NOT_NUMBER_DIVISION } = require('./errorMessage');
+const { NOT_NUMBER_DIVISION } = require('./Constant');
 const { validInteger } = require('./validation');
 
 const readLineConsole = (msg, callback) => {

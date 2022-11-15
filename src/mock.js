@@ -16,4 +16,5 @@ const mockQuestions = (answers) => {
 const mockQuestion = (answer) => {
   mockQuestions([answer]);
 };
+
 module.exports = { mockQuestions, mockQuestion, EMPTY_CALLBACK };
