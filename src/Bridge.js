@@ -1,5 +1,6 @@
 const BridgeMaker = require('./BridgeMaker');
 const BridgeRandomNumberGenerator = require('./BridgeRandomNumberGenerator');
+const { MOVE_RESULT } = require('./Constant');
 
 class Bridge {
   #bridge;
@@ -12,14 +13,16 @@ class Bridge {
       size,
       BridgeRandomNumberGenerator.generate,
     );
-    console.log('bridge: ', bridge);
     return bridge;
   }
 
   getMoveable(step, move) {
-    // console.log('this.getMoveable', step, move);
-    // console.log('bridge: ', this.#bridge);
-    return this.#bridge[step] === move;
+    if (!this.#bridge[step] === move) {
+      return MOVE_RESULT.FAIL;
+    }
+    return step + 1 === this.#bridge.length
+      ? MOVE_RESULT.END
+      : MOVE_RESULT.MOVEABLE;
   }
 }
 

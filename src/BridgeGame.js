@@ -1,3 +1,4 @@
+const { MOVE_RESULT } = require('./Constant');
 const Player = require('./Player');
 /**
  * 다리 건너기 게임을 관리하는 클래스
@@ -5,12 +6,11 @@ const Player = require('./Player');
 class BridgeGame {
   #bridge;
   #player;
+  #step;
   constructor(bridge) {
     this.#bridge = bridge;
     this.#player = new Player();
-
-    // start
-    this.move();
+    this.#step = 0;
   }
 
   /**
@@ -18,10 +18,16 @@ class BridgeGame {
    * <p>
    * 이동을 위해 필요한 메서드의 반환 값(return value), 인자(parameter)는 자유롭게 추가하거나 변경할 수 있다.
    */
-  move() {
-    this.#player.move(this.#bridge, (result) => {
-      console.log('이동 결과', result);
-    });
+  move(position) {
+    const moveResult = this.#bridge.getMoveable(this.#step, position);
+
+    const isMoveable = moveResult === MOVE_RESULT.MOVEABLE;
+    this.#player.move(position, isMoveable);
+
+    this.#player.printPaths();
+    this.#step += 1;
+
+    return moveResult;
   }
 
   /**
