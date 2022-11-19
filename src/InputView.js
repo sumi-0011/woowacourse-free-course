@@ -15,21 +15,27 @@ const InputView = {
    * 다리의 길이를 입력받는다.
    */
   readBridgeSize(callback) {
-    Console.readLine('다리의 길이를 입력해주세요.', (answer) => {
-      const bridgeSize = convertToInteger(answer.trim());
-      callback(bridgeSize);
-    });
+    this.readLine(
+      '다리의 길이를 입력해주세요.',
+      (answer) => {
+        const bridgeSize = Number.parseInt(answer, 10);
+        callback(bridgeSize);
+      },
+      validBridgeSizeInput,
+    );
   },
 
   /**
    * 사용자가 이동할 칸을 입력받는다.
    */
   readMoving(callback) {
-    Console.readLine('이동할 칸을 선택해주세요. (위: U, 아래: D)', (answer) => {
-      validMoveInput(answer.trim());
-
-      callback(answer.trim());
-    });
+    this.readLine(
+      '이동할 칸을 선택해주세요. (위: U, 아래: D)',
+      (answer) => {
+        callback(answer);
+      },
+      validMoveInput,
+    );
   },
 
   /**

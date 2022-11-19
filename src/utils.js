@@ -1,7 +1,11 @@
 const { validInteger } = require('./validation');
 
 const convertToInteger = (value) => {
-  validInteger(value);
+  try {
+    validInteger(value);
+  } catch (error) {
+    console.log('error: ', error);
+  }
   return Number.parseInt(value, 10);
 };
 
