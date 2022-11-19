@@ -1,26 +1,29 @@
-const InputView = require('./InputView');
-const OutputView = require('./OutputView');
+const INIT_TRY_COUNT = 1;
 
 class Player {
   #tryCount;
   #paths;
   constructor() {
-    this.#tryCount = 0;
+    this.#tryCount = INIT_TRY_COUNT;
     this.#paths = [];
   }
 
   move(position, isMoveable) {
     this.#paths = [...this.#paths, { move: position, isFail: !isMoveable }];
-    // this.printPaths();
-  }
 
-  printPaths() {
-    OutputView.printMap(this.#paths);
+    return [...this.#paths];
   }
 
   retry() {
     this.#tryCount += 1;
     this.#paths = [];
+  }
+
+  getResult() {
+    return {
+      tryCount: this.#tryCount,
+      path: this.#paths,
+    };
   }
 }
 
