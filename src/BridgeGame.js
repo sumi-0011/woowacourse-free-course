@@ -1,4 +1,4 @@
-const { MOVE_RESULT } = require('./Constant');
+const { MOVE_RESULT, GAME_COMMAND } = require('./Constant');
 const Player = require('./Player');
 /**
  * 다리 건너기 게임을 관리하는 클래스
@@ -21,13 +21,14 @@ class BridgeGame {
   move(position) {
     const moveResult = this.#bridge.getMoveable(this.#step, position);
 
-    const isMoveable = moveResult === MOVE_RESULT.MOVEABLE;
-    this.#player.move(position, isMoveable);
+    const isMoveable =
+      moveResult === MOVE_RESULT.MOVEABLE || moveResult === MOVE_RESULT.END;
+    const paths = this.#player.move(position, isMoveable);
 
-    this.#player.printPaths();
+    // this.#player.printPaths();
     this.#step += 1;
 
-    return moveResult;
+    return { moveResult, paths };
   }
 
   /**

@@ -17,7 +17,7 @@ class Bridge {
   }
 
   getMoveable(step, move) {
-    if (!this.#bridge[step] === move) {
+    if (this.#bridge[step] !== move) {
       return MOVE_RESULT.FAIL;
     }
     return step + 1 === this.#bridge.length

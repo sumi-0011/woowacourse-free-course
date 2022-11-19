@@ -1,4 +1,4 @@
-const MOVING = ['U', 'D'];
+const MOVING = ['D', 'U'];
 
 const MOVE_RESULT = {
   MOVEABLE: 'moveable',
