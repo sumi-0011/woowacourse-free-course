@@ -6,7 +6,13 @@ const MOVE_RESULT = {
   FAIL: 'fail',
 };
 
+const GAME_COMMAND = {
+  RETRY: 'R',
+  QUIT: 'Q',
+};
+
 module.exports = {
   MOVING,
   MOVE_RESULT,
+  GAME_COMMAND,
 };

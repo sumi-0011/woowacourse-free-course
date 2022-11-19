@@ -32,6 +32,16 @@ class App {
       this.afterMove(moveResult);
     });
   }
+
+  retry() {
+    InputView.readGameCommand((isRetry) => {
+      if (isRetry) {
+        this.game.retry();
+        this.movePlayer();
+        return;
+      }
+
+      this.end(true);
     });
   }
 
