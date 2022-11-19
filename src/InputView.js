@@ -19,6 +19,7 @@ const InputView = {
       '다리의 길이를 입력해주세요.',
       (answer) => {
         const bridgeSize = Number.parseInt(answer, 10);
+        Console.print('\n');
         callback(bridgeSize);
       },
       validBridgeSizeInput,
@@ -53,9 +54,8 @@ const InputView = {
   },
 
   readLine(msg, callback, validation) {
-    Console.readLine(msg, (answer) => {
+    Console.readLine(`${msg}\n`, (answer) => {
       const isSuccess = validation ? validation(answer) : true;
-
       isSuccess ? callback(answer) : this.readLine(msg, callback, validation);
     });
   },
