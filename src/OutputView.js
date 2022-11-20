@@ -1,5 +1,5 @@
 const { Console } = require('@woowacourse/mission-utils');
-
+const { calcMap } = require('./utils');
 /**
  * 사용자에게 게임 진행 상황과 결과를 출력하는 역할을 한다.
  */
@@ -10,13 +10,8 @@ const OutputView = {
    * 출력을 위해 필요한 메서드의 인자(parameter)는 자유롭게 추가하거나 변경할 수 있다.
    */
   printMap(paths) {
-    let resU = [];
-    let resD = [];
-    paths.forEach(({ move, isFail }) => {
-      const OX = isFail ? 'X' : 'O';
-      move === 'U' ? resU.push(OX) : resU.push(' ');
-      move === 'D' ? resD.push(OX) : resD.push(' ');
-    });
+    const [resU, resD] = calcMap(paths);
+
     Console.print(`[ ${resU.join(' | ')} ]`);
     Console.print(`[ ${resD.join(' | ')} ]`);
     Console.print('\n');

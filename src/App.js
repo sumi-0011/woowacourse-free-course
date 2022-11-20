@@ -15,8 +15,6 @@ class App {
 
   play() {
     InputView.readBridgeSize((size) => {
-
-      
       const bridge = new Bridge(size);
       this.bridge = bridge;
       this.game = new BridgeGame(bridge);
@@ -56,19 +54,14 @@ class App {
   }
 
   afterMove(moveResult) {
-    switch (moveResult) {
-      case MOVE_RESULT.MOVEABLE:
-        this.movePlayer();
-        return;
-      case MOVE_RESULT.FAIL:
-        this.retry();
-        return;
-      case MOVE_RESULT.END:
-        this.end(false);
-        return;
-      default:
-        throw new Error('[ERROR] 잘못된 입력입니다.');
-    }
+    const moveList = [
+      () => this.movePlayer(),
+      () => this.end(false),
+      () => this.retry(),
+    ];
+
+    const moving = moveList[moveResult];
+    moving();
   }
 }
 

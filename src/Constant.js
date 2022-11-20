@@ -1,9 +1,9 @@
 const MOVING = ['D', 'U'];
 
 const MOVE_RESULT = {
-  MOVEABLE: 'moveable',
-  END: 'end',
-  FAIL: 'fail',
+  MOVEABLE: 0,
+  END: 1,
+  FAIL: 2,
 };
 
 const GAME_COMMAND = {
