@@ -3,6 +3,7 @@ const INIT_TRY_COUNT = 1;
 class Player {
   #tryCount;
   #paths;
+
   constructor() {
     this.#tryCount = INIT_TRY_COUNT;
     this.#paths = [];

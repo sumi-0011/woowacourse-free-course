@@ -1,4 +1,8 @@
-const { MOVING, GAME_COMMAND } = require('./Constant');
+const {
+  MOVING_COMMAND_LIST,
+  ERROR_MESSAGE,
+  GAME_COMMANDS,
+} = require('./Constant');
 const { Console } = require('@woowacourse/mission-utils');
 
 /**
@@ -13,50 +17,48 @@ const validInteger = (value) => {
     return true;
   }
 
-  throw new Error('[ERROR] 다리 길이는 3부터 20 사이의 숫자여야 합니다.');
+  throw new Error(ERROR_MESSAGE.wrong_input);
 };
 
+/**
+ * @param {any[]} list
+ * @param {string} value 배열안에 있는지 검증할 값
+ * @returns
+ */
 const validIncludeValue = (list, value) => {
   if (list.includes(value)) {
     return true;
   }
-  throw new Error('[ERROR] 잘못된 입력입니다.');
+
+  throw new Error(ERROR_MESSAGE.wrong_input);
 };
 
 const validBridgeSizeInput = (value) => {
   try {
     validInteger(value);
-
     return true;
   } catch (error) {
-    Console.print('[ERROR] 다리 길이는 3부터 20 사이의 숫자여야 합니다.');
+    Console.print(ERROR_MESSAGE.wrong_bridge_size_input);
     return false;
   }
 };
 
 const validMoveInput = (answer) => {
   try {
-    validIncludeValue(MOVING, answer);
-
+    validIncludeValue(MOVING_COMMAND_LIST, answer);
     return true;
   } catch (error) {
-    Console.print('[ERROR] "U"또는 "D"를 입력하여야 합니다. (위: U, 아래: D)');
-
+    Console.print(ERROR_MESSAGE.wrong_move_command);
     return false;
   }
 };
 
 const validGameCommand = (answer) => {
   try {
-    const gameCommand = [GAME_COMMAND.RETRY, GAME_COMMAND.QUIT];
-    validIncludeValue(gameCommand, answer);
-
+    validIncludeValue(GAME_COMMANDS, answer);
     return true;
   } catch (error) {
-    Console.print(
-      '[ERROR] "R"또는 "Q"를 입력하여야 합니다. (재시도: R, 종료: Q)',
-    );
-
+    Console.print(ERROR_MESSAGE.wrong_game_command);
     return false;
   }
 };

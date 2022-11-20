@@ -1,8 +1,5 @@
-const { MOVING } = require('./Constant');
+const { MOVING_COMMAND } = require('./Constant');
 
-/**
- * 다리의 길이를 입력 받아서 다리를 생성해주는 역할을 한다.
- */
 const BridgeMaker = {
   /**
    * @param {number} size 다리의 길이
@@ -11,13 +8,11 @@ const BridgeMaker = {
    */
   makeBridge(size, generateRandomNumber) {
     const bridge = [];
-
     for (let i = 0; i < size; i += 1) {
       const number = generateRandomNumber();
-      const shape = MOVING[number];
+      const shape = MOVING_COMMAND[number];
       bridge.push(shape);
     }
-
     return bridge;
   },
 };
