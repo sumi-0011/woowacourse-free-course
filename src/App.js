@@ -1,16 +1,14 @@
+const { Console } = require('@woowacourse/mission-utils');
 const InputView = require('./InputView');
+const OutputView = require('./OutputView');
 const Bridge = require('./Bridge');
 const BridgeGame = require('./BridgeGame');
-const { MOVE_RESULT } = require('./Constant');
-const OutputView = require('./OutputView');
-const { Console } = require('@woowacourse/mission-utils');
-// const Player = require('./Player');
+const { MOVE_RESULT_NAME } = require('./Constant');
 
 class App {
   constructor() {
     this.game = null;
     this.bridge = null;
-    // this.player = new Player();
   }
 
   play() {
@@ -26,38 +24,40 @@ class App {
   movePlayer() {
     InputView.readMoving((position) => {
       const { moveResult, paths } = this.game.move(position);
+
       OutputView.printMap(paths);
-      this.afterMove(moveResult);
+
+      this.#afterMove(moveResult);
+
+      return MOVE_RESULT_NAME[moveResult];
     });
   }
 
-  retry() {
+  #guessRetry() {
     InputView.readGameCommand((isRetry) => {
-      if (isRetry) {
-        this.game.retry();
-        this.movePlayer();
-        return;
-      }
-
-      this.end(true);
+      isRetry ? this.#retry() : this.#end(true);
     });
   }
 
-  end(isFail) {
+  #retry() {
+    this.game.retry();
+    this.movePlayer();
+  }
+
+  #end(isFail) {
     const gameSuccessfulMsg = isFail ? '실패' : '성공';
 
     const { tryCount, path } = this.game.getResult();
 
     OutputView.printResult(path, gameSuccessfulMsg, tryCount);
-
     Console.close();
   }
 
-  afterMove(moveResult) {
+  #afterMove(moveResult) {
     const moveList = [
       () => this.movePlayer(),
-      () => this.end(false),
-      () => this.retry(),
+      () => this.#end(false),
+      () => this.#guessRetry(),
     ];
 
     const moving = moveList[moveResult];
