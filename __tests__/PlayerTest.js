@@ -1,4 +1,5 @@
 const Player = require('../src/Player');
+
 const INIT_TRY_COUNT = 1;
 
 describe('Player 클래스 테스트', () => {
