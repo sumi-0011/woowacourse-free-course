@@ -6,10 +6,10 @@ class Bridge {
   #bridge;
 
   constructor(size) {
-    this.#bridge = this.init(size);
+    this.#bridge = this.#init(size);
   }
 
-  init(size) {
+  #init(size) {
     const bridge = BridgeMaker.makeBridge(
       size,
       BridgeRandomNumberGenerator.generate,
