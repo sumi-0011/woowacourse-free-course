@@ -33,9 +33,43 @@ const validIncludeValue = (list, value) => {
   throw new Error(ERROR_MESSAGE.wrong_input);
 };
 
+/**
+ * @param {number} number
+ * @returns {ERROR | true}
+ */
+const validNumber = (number) => {
+  if (Number.isNaN(number)) {
+    throw new Error('[ERROR] 입력값이 NaN입니다.');
+  }
+  return true;
+};
+
+/**
+ * @param  {...number} numbers
+ */
+const validNumbers = (...numbers) => {
+  numbers.forEach((number) => {
+    validNumber(number);
+  });
+};
+
+/**
+ * @param {number} number
+ * @param {number} minBound
+ * @param {number} maxBound
+ */
+const validInBound = (number, minBound, maxBound) => {
+  validNumbers(number, minBound, maxBound);
+  if (number < minBound || number > maxBound) {
+    throw new Error(ERROR_MESSAGE.wrong_input);
+  }
+  return true;
+};
+
 const validBridgeSizeInput = (value) => {
   try {
     validInteger(value);
+    validInBound(value, 3, 20);
     return true;
   } catch (error) {
     Console.print(ERROR_MESSAGE.wrong_bridge_size_input);
