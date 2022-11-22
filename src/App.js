@@ -3,7 +3,7 @@ const InputView = require('./InputView');
 const OutputView = require('./OutputView');
 const Bridge = require('./Bridge');
 const BridgeGame = require('./BridgeGame');
-const { MOVE_RESULT_NAME } = require('./Constant');
+const { MOVE_RESULT_NAME } = require('./utils/constants');
 
 class App {
   constructor() {
@@ -11,6 +11,10 @@ class App {
   }
 
   play() {
+    this.start();
+  }
+
+  start() {
     InputView.readBridgeSize((size) => {
       const bridge = new Bridge(size);
       this.game = new BridgeGame(bridge);

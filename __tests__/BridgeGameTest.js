@@ -1,9 +1,6 @@
 const Bridge = require('../src/Bridge');
 const BridgeGame = require('../src/BridgeGame');
-const { MOVE_RESULT } = require('../src/Constant');
-const { mockRandoms } = require('../src/mock');
-
-const INIT_TRY_COUNT = 1;
+const { mockRandoms } = require('../src/utils/mock');
 
 describe('다리 건너기 게임 테스트', () => {
   let bridgeGame;

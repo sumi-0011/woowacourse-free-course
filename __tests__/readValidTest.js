@@ -6,7 +6,7 @@ const {
   getLogSpy,
   getOutput,
   EMPTY_CALLBACK,
-} = require('../src/mock');
+} = require('../src/utils/mock');
 
 const runException = (input, runCallback) => {
   mockQuestions([input]);

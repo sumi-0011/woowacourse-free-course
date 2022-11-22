@@ -1,4 +1,4 @@
-const { MOVING_COMMAND } = require('./Constant');
+const { MOVING_COMMAND } = require('./utils/constants');
 
 const BridgeMaker = {
   /**

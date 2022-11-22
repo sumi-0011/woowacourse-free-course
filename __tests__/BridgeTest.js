@@ -1,8 +1,8 @@
 const Bridge = require('../src/Bridge');
 const BridgeMaker = require('../src/BridgeMaker');
 const BridgeRandomNumberGenerator = require('../src/BridgeRandomNumberGenerator');
-const { MOVE_RESULT } = require('../src/Constant');
-const { mockRandoms } = require('../src/mock');
+const { MOVE_RESULT } = require('../src/utils/constants');
+const { mockRandoms } = require('../src/utils/mock');
 
 describe('Bridge, BridgeMarker 테스트', () => {
   let result;

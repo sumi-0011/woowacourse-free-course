@@ -5,7 +5,7 @@ const {
   validMoveInput,
   validGameCommand,
   validBridgeSizeInput,
-} = require('./validation');
+} = require('./utils/validation');
 
 const InputView = {
   readBridgeSize(callback) {
