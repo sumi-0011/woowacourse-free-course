@@ -1,6 +1,13 @@
+const MissionUtils = require('@woowacourse/mission-utils');
 const BridgeMaker = require('../src/BridgeMaker');
 const BridgeRandomNumberGenerator = require('../src/BridgeRandomNumberGenerator');
-const { mockRandoms } = require('../src/utils/mock');
+
+const mockRandoms = (numbers) => {
+  MissionUtils.Random.pickNumberInRange = jest.fn();
+  numbers.reduce((acc, number) => {
+    return acc.mockReturnValueOnce(number);
+  }, MissionUtils.Random.pickNumberInRange);
+};
 
 describe('BridgeMarker 테스트', () => {
   beforeEach(() => {
