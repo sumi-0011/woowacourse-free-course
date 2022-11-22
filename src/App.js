@@ -6,21 +6,28 @@ const BridgeGame = require('./BridgeGame');
 const { MOVE_RESULT_NAME } = require('./utils/constants');
 
 class App {
+  #actionCommand;
+
   constructor() {
+    this.#actionCommand = [this.movePlayer, this.#end, this.#guessRetry];
     this.game = null;
   }
 
   play() {
-    this.start();
+    this.init();
   }
 
-  start() {
+  init() {
     InputView.readBridgeSize((size) => {
       const bridge = new Bridge(size);
       this.game = new BridgeGame(bridge);
 
-      this.movePlayer();
+      this.start();
     });
+  }
+
+  start() {
+    this.movePlayer();
   }
 
   movePlayer() {
@@ -29,7 +36,7 @@ class App {
 
       OutputView.printMap(pathMap);
 
-      this.#afterMove(moveResult);
+      this.#actionCommand[moveResult].call(this);
 
       return MOVE_RESULT_NAME[moveResult];
     });
@@ -37,7 +44,7 @@ class App {
 
   #guessRetry() {
     InputView.readGameCommand((isRetry) => {
-      isRetry ? this.#retry() : this.#end(true);
+      isRetry ? this.#retry() : this.#end();
     });
   }
 
@@ -46,26 +53,25 @@ class App {
     this.movePlayer();
   }
 
-  #end(isFail) {
-    const gameSuccessfulMsg = isFail ? '실패' : '성공';
+  #end() {
+    const { tryCount, pathMap, isClear } = this.game.getResult();
 
-    // const { tryCount, path } = this.game.getResult();
-    const { tryCount, pathMap } = this.game.getResult();
+    const gameClearMsg = isClear ? '성공' : '실패';
+    OutputView.printResult(pathMap, gameClearMsg, tryCount);
 
-    OutputView.printResult(pathMap, gameSuccessfulMsg, tryCount);
     Console.close();
   }
 
-  #afterMove(moveResult) {
-    const moveList = [
-      () => this.movePlayer(),
-      () => this.#end(false),
-      () => this.#guessRetry(),
-    ];
+  // #afterMove(moveResult) {
+  //   // const moveList = [
+  //   //   () => this.movePlayer(),
+  //   //   () => this.#end(),
+  //   //   () => this.#guessRetry(),
+  //   // ];
 
-    const moving = moveList[moveResult];
-    moving();
-  }
+  //   const moving = t[moveResult];
+  //   moving();
+  // }
 }
 
 module.exports = App;

@@ -27,10 +27,16 @@ class BridgeGame {
     this.#path = new Path();
   }
 
+  getIsClear() {
+    const paths = this.#path.getPaths();
+    const isClear = this.#bridge.getIsLast(paths);
+    return isClear;
+  }
   getResult() {
     return {
       tryCount: this.#tryCount,
       pathMap: this.#path.getPathMap(),
+      isClear: this.getIsClear(),
     };
   }
 }
