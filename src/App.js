@@ -18,17 +18,17 @@ class App {
 
   initBridge() {
     InputView.readBridgeSize((size) => {
-      const bridge = BridgeMaker.makeBridge(
+      const randomBridge = BridgeMaker.makeBridge(
         size,
         BridgeRandomNumberGenerator.generate,
       );
 
-      this.start(bridge);
+      this.start(randomBridge);
     });
   }
 
-  start(bridge) {
-    this.game = new BridgeGame(new Bridge(bridge));
+  start(randomBridge) {
+    this.game = new BridgeGame(randomBridge);
     this.movePlayer();
   }
 

@@ -1,5 +1,6 @@
 const { INIT_TRY_COUNT, MOVE_RESULT } = require('./utils/constants');
 const Path = require('./Path');
+const Bridge = require('./Bridge');
 
 const MOVEABLE_RESULT = [MOVE_RESULT.MOVEABLE, MOVE_RESULT.END];
 
@@ -9,7 +10,7 @@ class BridgeGame {
   #tryCount;
 
   constructor(bridge) {
-    this.#bridge = bridge;
+    this.#bridge = new Bridge(bridge);
     this.#path = new Path();
     this.#tryCount = INIT_TRY_COUNT;
   }

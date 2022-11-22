@@ -10,7 +10,7 @@ describe('다리 건너기 게임 테스트', () => {
   let bridgeGame;
 
   beforeEach(() => {
-    const bridge = new Bridge(['D', 'U', 'U']);
+    const bridge = ['D', 'U', 'U'];
     bridgeGame = new BridgeGame(bridge);
   });
 
