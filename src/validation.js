@@ -1,8 +1,4 @@
-const {
-  MOVING_COMMAND_LIST,
-  ERROR_MESSAGE,
-  GAME_COMMANDS,
-} = require('./Constant');
+const { MOVING_COMMAND, ERROR_MESSAGE, GAME_COMMANDS } = require('./Constant');
 const { Console } = require('@woowacourse/mission-utils');
 
 /**
@@ -79,7 +75,7 @@ const validBridgeSizeInput = (value) => {
 
 const validMoveInput = (answer) => {
   try {
-    validIncludeValue(MOVING_COMMAND_LIST, answer);
+    validIncludeValue(MOVING_COMMAND, answer);
     return true;
   } catch (error) {
     Console.print(ERROR_MESSAGE.wrong_move_command);

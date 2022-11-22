@@ -8,13 +8,11 @@ const { MOVE_RESULT_NAME } = require('./Constant');
 class App {
   constructor() {
     this.game = null;
-    this.bridge = null;
   }
 
   play() {
     InputView.readBridgeSize((size) => {
       const bridge = new Bridge(size);
-      this.bridge = bridge;
       this.game = new BridgeGame(bridge);
 
       this.movePlayer();
@@ -23,9 +21,9 @@ class App {
 
   movePlayer() {
     InputView.readMoving((position) => {
-      const { moveResult, paths } = this.game.move(position);
+      const { moveResult, pathMap } = this.game.move(position);
 
-      OutputView.printMap(paths);
+      OutputView.printMap(pathMap);
 
       this.#afterMove(moveResult);
 
@@ -47,9 +45,10 @@ class App {
   #end(isFail) {
     const gameSuccessfulMsg = isFail ? '실패' : '성공';
 
-    const { tryCount, path } = this.game.getResult();
+    // const { tryCount, path } = this.game.getResult();
+    const { tryCount, pathMap } = this.game.getResult();
 
-    OutputView.printResult(path, gameSuccessfulMsg, tryCount);
+    OutputView.printResult(pathMap, gameSuccessfulMsg, tryCount);
     Console.close();
   }
 

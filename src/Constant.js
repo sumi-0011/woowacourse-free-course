@@ -1,9 +1,9 @@
-const MOVING_COMMAND = {
-  0: 'D',
-  1: 'U',
-};
+const MOVING_COMMAND = ['D', 'U'];
 
-const MOVING_COMMAND_LIST = Object.values(MOVING_COMMAND);
+const MOVING = {
+  D: 0,
+  U: 1,
+};
 
 const MOVE_RESULT = {
   MOVEABLE: 0,
@@ -36,10 +36,10 @@ const ERROR_MESSAGE = {
 
 module.exports = {
   MOVING_COMMAND,
-  MOVING_COMMAND_LIST,
   MOVE_RESULT,
   GAME_COMMAND,
   GAME_COMMANDS,
   MOVE_RESULT_NAME,
   ERROR_MESSAGE,
+  MOVING,
 };
