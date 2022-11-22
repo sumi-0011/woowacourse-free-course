@@ -1,43 +1,58 @@
 const Bridge = require('../src/Bridge');
-const BridgeMaker = require('../src/BridgeMaker');
-const BridgeRandomNumberGenerator = require('../src/BridgeRandomNumberGenerator');
 const { MOVE_RESULT } = require('../src/utils/constants');
-const { mockRandoms } = require('../src/utils/mock');
 
-describe('Bridge, BridgeMarker 테스트', () => {
-  let result;
+describe('Bridge 클래스 테스트', () => {
+  let bridge;
   beforeEach(() => {
-    mockRandoms([0, 1, 1]);
-    res = ['D', 'U', 'U'];
+    const madeBridge = ['D', 'U', 'U'];
+    bridge = new Bridge(madeBridge);
   });
 
-  it('bridge 생성 테스트', () => {
-    const size = 3;
+  it('이동 결과 확인 체크 기능 테스트 / 전체 이동 성공 케이스', () => {
+    const answer = ['D', 'U', 'U'];
+    const expectedValue = [
+      MOVE_RESULT.MOVEABLE,
+      MOVE_RESULT.MOVEABLE,
+      MOVE_RESULT.END,
+    ];
 
-    const makeBridge = BridgeMaker.makeBridge(
-      size,
-      BridgeRandomNumberGenerator.generate,
-    );
-
-    expect(makeBridge).toHaveLength(size);
-    expect(makeBridge).toEqual(res);
+    expectedValue.forEach((result, idx) => {
+      const paths = answer.slice(0, idx + 1);
+      expect(bridge.getMoveable(paths)).toEqual(result);
+    });
   });
 
-  // it('이동 가능 여부 체크 기능 테스트', () => {
-  //   const size = 3;
-  //   const bridge = new Bridge(size);
+  it('이동 결과 확인 기능 테스트 / 이동 실패 케이스', () => {
+    const answer = ['D', 'D'];
+    const expectedValue = [MOVE_RESULT.MOVEABLE, MOVE_RESULT.FAIL];
 
-  //   const res = [
-  //     { step: 0, move: 'D', result: MOVE_RESULT.MOVEABLE },
-  //     { step: 0, move: 'U', result: MOVE_RESULT.FAIL },
-  //     { step: 1, move: 'D', result: MOVE_RESULT.FAIL },
-  //     { step: 1, move: 'U', result: MOVE_RESULT.MOVEABLE },
-  //     { step: 2, move: 'D', result: MOVE_RESULT.FAIL },
-  //     { step: 2, move: 'U', result: MOVE_RESULT.END },
-  //   ];
+    expectedValue.forEach((result, idx) => {
+      const paths = answer.slice(0, idx + 1);
+      expect(bridge.getMoveable(paths)).toEqual(result);
+    });
+  });
 
-  //   res.forEach(({ step, move, result }) => {
-  //     expect(bridge.getMoveable(step, move)).toEqual(result);
-  //   });
-  // });
+  it('이동 가능 여부 체크 기능 테스트', () => {
+    const answer = ['D', 'U', 'D'];
+    const expectedValue = [true, true, false];
+
+    expectedValue.forEach((result, idx) => {
+      const paths = answer.slice(0, idx + 1);
+      expect(bridge.getIsMoveable(paths)).toEqual(result);
+    });
+  });
+
+  it('마지막 단계인지 확인 기능 테스트', () => {
+    const answers = [
+      ['D', 'U', 'D'],
+      ['D', 'U', 'U'],
+      ['D', 'U'],
+    ];
+    const expectedValue = [true, true, false];
+
+    expectedValue.forEach((result, idx) => {
+      const paths = answers[idx];
+      expect(bridge.getIsLast(paths)).toEqual(result);
+    });
+  });
 });
