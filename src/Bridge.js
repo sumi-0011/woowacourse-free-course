@@ -1,21 +1,10 @@
-const BridgeRandomNumberGenerator = require('./BridgeRandomNumberGenerator');
-const BridgeMaker = require('./BridgeMaker');
 const { MOVE_RESULT } = require('./utils/constants');
 
 class Bridge {
   #bridge;
 
-  constructor(size) {
-    this.#bridge = this.#init(size);
-  }
-
-  #init(size) {
-    const bridge = BridgeMaker.makeBridge(
-      size,
-      BridgeRandomNumberGenerator.generate,
-    );
-
-    return bridge;
+  constructor(bridge) {
+    this.#bridge = bridge;
   }
 
   getIsMoveable(paths) {

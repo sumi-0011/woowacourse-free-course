@@ -32,6 +32,7 @@ class BridgeGame {
     const isClear = this.#bridge.getIsLast(paths);
     return isClear;
   }
+
   getResult() {
     return {
       tryCount: this.#tryCount,

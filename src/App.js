@@ -1,45 +1,54 @@
 const { Console } = require('@woowacourse/mission-utils');
 const InputView = require('./InputView');
 const OutputView = require('./OutputView');
+const BridgeMaker = require('./BridgeMaker');
+const BridgeRandomNumberGenerator = require('./BridgeRandomNumberGenerator');
 const Bridge = require('./Bridge');
 const BridgeGame = require('./BridgeGame');
-const { MOVE_RESULT_NAME } = require('./utils/constants');
+const { MOVE_RESULT } = require('./utils/constants');
 
 class App {
-  #actionCommand;
-
   constructor() {
-    this.#actionCommand = [this.movePlayer, this.#end, this.#guessRetry];
     this.game = null;
   }
 
   play() {
-    this.init();
+    this.initBridge();
   }
 
-  init() {
+  initBridge() {
     InputView.readBridgeSize((size) => {
-      const bridge = new Bridge(size);
-      this.game = new BridgeGame(bridge);
+      const bridge = BridgeMaker.makeBridge(
+        size,
+        BridgeRandomNumberGenerator.generate,
+      );
 
-      this.start();
+      this.start(bridge);
     });
   }
 
-  start() {
+  start(bridge) {
+    this.game = new BridgeGame(new Bridge(bridge));
     this.movePlayer();
   }
 
   movePlayer() {
     InputView.readMoving((position) => {
       const { moveResult, pathMap } = this.game.move(position);
-
       OutputView.printMap(pathMap);
 
-      this.#actionCommand[moveResult].call(this);
-
-      return MOVE_RESULT_NAME[moveResult];
+      this.guessNext(moveResult);
     });
+  }
+
+  guessNext(moveResult) {
+    const commands = {
+      [MOVE_RESULT.MOVEABLE]: this.movePlayer,
+      [MOVE_RESULT.END]: this.#end,
+      [MOVE_RESULT.FAIL]: this.#guessRetry,
+    };
+
+    commands[moveResult].call(this);
   }
 
   #guessRetry() {
@@ -55,23 +64,11 @@ class App {
 
   #end() {
     const { tryCount, pathMap, isClear } = this.game.getResult();
-
     const gameClearMsg = isClear ? '성공' : '실패';
-    OutputView.printResult(pathMap, gameClearMsg, tryCount);
 
+    OutputView.printResult(pathMap, gameClearMsg, tryCount);
     Console.close();
   }
-
-  // #afterMove(moveResult) {
-  //   // const moveList = [
-  //   //   () => this.movePlayer(),
-  //   //   () => this.#end(),
-  //   //   () => this.#guessRetry(),
-  //   // ];
-
-  //   const moving = t[moveResult];
-  //   moving();
-  // }
 }
 
 module.exports = App;
