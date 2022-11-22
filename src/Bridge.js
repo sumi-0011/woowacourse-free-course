@@ -12,16 +12,16 @@ class Bridge {
     return paths[index] === this.#bridge[index];
   }
 
-  getIsLast(paths) {
-    return paths.length === this.#bridge.length;
+  getIsClear(paths) {
+    return paths.toString() === this.#bridge.toString();
   }
 
   getMoveable(paths) {
     const isMoveable = this.getIsMoveable(paths);
-    const isLast = this.getIsLast(paths);
+    const isClear = this.getIsClear(paths);
 
     if (isMoveable) {
-      return isLast ? MOVE_RESULT.END : MOVE_RESULT.MOVEABLE;
+      return isClear ? MOVE_RESULT.END : MOVE_RESULT.MOVEABLE;
     }
     return MOVE_RESULT.FAIL;
   }

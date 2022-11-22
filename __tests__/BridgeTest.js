@@ -42,17 +42,16 @@ describe('Bridge 클래스 테스트', () => {
     });
   });
 
-  it('마지막 단계인지 확인 기능 테스트', () => {
+  it('다리를 모두 건너는데 성공했는지 확인하는 기능 테스트', () => {
     const answers = [
       ['D', 'U', 'D'],
       ['D', 'U', 'U'],
-      ['D', 'U'],
     ];
-    const expectedValue = [true, true, false];
+    const expectedValue = [false, true];
 
     expectedValue.forEach((result, idx) => {
       const paths = answers[idx];
-      expect(bridge.getIsLast(paths)).toEqual(result);
+      expect(bridge.getIsClear(paths)).toEqual(result);
     });
   });
 });

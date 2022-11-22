@@ -31,7 +31,7 @@ class BridgeGame {
 
   getIsClear() {
     const paths = this.#path.getPaths();
-    return this.#bridge.getIsLast(paths);
+    return this.#bridge.getIsClear(paths);
   }
 
   getResult() {

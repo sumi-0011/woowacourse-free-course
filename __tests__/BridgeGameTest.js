@@ -40,6 +40,18 @@ describe('다리 건너기 게임 테스트', () => {
     });
   });
 
+  it('이동 후 게임 성공/실패 결과가 정상적으로 나오는지 테스트', () => {
+    const moves = ['D', 'U', 'D'];
+
+    const expectedIsClear = [false, false, false];
+    moves.forEach((position, idx) => {
+      bridgeGame.move(position);
+      const { isClear } = bridgeGame.getResult();
+
+      expect(isClear).toEqual(expectedIsClear[idx]);
+    });
+  });
+
   it('재시작 후 시도횟수 증가, 경로 초기화 테스트 ', () => {
     const actionCommand = [
       () => {},
@@ -72,15 +84,15 @@ describe('다리 건너기 게임 테스트', () => {
     });
   });
 
-  it('마지막 단계인지 확인하는 메소드 테스트', () => {
+  it('게임이 마지막 단계인지 확인하는 메소드 테스트', () => {
     const moves = ['D', 'U', 'U'];
     const expectedValues = [false, false, true];
 
     moves.forEach((position, idx) => {
       bridgeGame.move(position);
-      const isLast = bridgeGame.getIsClear();
+      const { isClear } = bridgeGame.getResult();
 
-      expect(isLast).toEqual(expectedValues[idx]);
+      expect(isClear).toEqual(expectedValues[idx]);
     });
   });
 });
