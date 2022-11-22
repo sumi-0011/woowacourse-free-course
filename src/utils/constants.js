@@ -5,6 +5,12 @@ const MOVING = {
   U: 1,
 };
 
+const MARKING = {
+  RIGHT: 'O',
+  WRONG: 'X',
+  EMPTY: ' ',
+};
+
 const MOVE_RESULT = {
   MOVEABLE: 0,
   END: 1,
@@ -48,4 +54,5 @@ module.exports = {
   MOVING,
   MOVEABLE,
   INIT_TRY_COUNT,
+  MARKING,
 };

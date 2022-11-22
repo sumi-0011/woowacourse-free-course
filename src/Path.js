@@ -1,10 +1,4 @@
-const { MOVING } = require('./utils/constants');
-
-const MARKING = {
-  RIGHT: 'O',
-  WRONG: 'X',
-  EMPTY: ' ',
-};
+const { MOVING, MARKING } = require('./utils/constants');
 
 class Path {
   #paths;
