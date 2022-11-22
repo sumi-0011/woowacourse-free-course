@@ -1,5 +1,5 @@
 const { Console } = require('@woowacourse/mission-utils');
-const { MOVING } = require('./utils/constants');
+const { MOVING } = require('../utils/constants');
 
 const OutputView = {
   printMap(pathMap) {

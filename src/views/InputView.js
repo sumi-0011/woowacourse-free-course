@@ -1,11 +1,11 @@
 const { Console } = require('@woowacourse/mission-utils');
-const { GAME_COMMAND } = require('./utils/constants');
+const { GAME_COMMAND } = require('../utils/constants');
 
 const {
   validMoveInput,
   validGameCommand,
   validBridgeSizeInput,
-} = require('./utils/validation');
+} = require('../utils/validation');
 
 const InputView = {
   readBridgeSize(callback) {
