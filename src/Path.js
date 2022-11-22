@@ -9,23 +9,21 @@ class Path {
     this.#pathMap = [[], []];
   }
 
-  move(position) {
+  move(position, isMoveable) {
     this.#paths.push(position);
 
-    return this.#paths;
+    this.#mark(isMoveable);
+
+    return this.#pathMap;
   }
 
-  mark(isMoveable) {
-    const currentPath = this.getCurrentPath();
+  #mark(isMoveable) {
+    const currentPath = this.#getCurrentPath();
     const marking = isMoveable ? MARKING.RIGHT : MARKING.WRONG;
 
     currentPath === 'D' ? this.#markD(marking) : this.#markU(marking);
 
     return this.#pathMap;
-  }
-
-  getCurrentPath() {
-    return this.#paths[this.#paths.length - 1];
   }
 
   getPathMap() {
@@ -34,6 +32,10 @@ class Path {
 
   getPaths() {
     return this.#paths;
+  }
+
+  #getCurrentPath() {
+    return this.#paths[this.#paths.length - 1];
   }
 
   #markU(marking) {

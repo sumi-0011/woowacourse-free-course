@@ -16,7 +16,7 @@ class Bridge {
     return paths.toString() === this.#bridge.toString();
   }
 
-  getMoveable(paths) {
+  getMoveResult(paths) {
     const isMoveable = this.getIsMoveable(paths);
     const isClear = this.getIsClear(paths);
 

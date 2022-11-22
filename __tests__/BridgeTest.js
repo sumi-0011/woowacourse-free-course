@@ -18,7 +18,7 @@ describe('Bridge 클래스 테스트', () => {
 
     expectedValue.forEach((result, idx) => {
       const paths = answer.slice(0, idx + 1);
-      expect(bridge.getMoveable(paths)).toEqual(result);
+      expect(bridge.getMoveResult(paths)).toEqual(result);
     });
   });
 
@@ -28,7 +28,7 @@ describe('Bridge 클래스 테스트', () => {
 
     expectedValue.forEach((result, idx) => {
       const paths = answer.slice(0, idx + 1);
-      expect(bridge.getMoveable(paths)).toEqual(result);
+      expect(bridge.getMoveResult(paths)).toEqual(result);
     });
   });
 

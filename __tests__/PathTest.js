@@ -35,30 +35,20 @@ describe('Path 클래스 테스트', () => {
     return { answer, expectedPathMap, resultMoveable };
   };
 
-  const expectPathMap = (isMoveable, expectedPathMap, idx) => {
+  const expectPathMap = (resultPathMap, expectedPathMap, idx) => {
     const expectedU = expectedPathMap[MOVING.U].slice(0, idx + 1);
     const expectedD = expectedPathMap[MOVING.D].slice(0, idx + 1);
 
-    const resultPathMap = path.mark(isMoveable);
     expect(resultPathMap[MOVING.U]).toEqual(expectedU);
     expect(resultPathMap[MOVING.D]).toEqual(expectedD);
   };
-
-  it('경로 이동 메소드 테스트 ', () => {
-    const { answer } = getClearCase();
-
-    answer.map((position, idx) => {
-      expectedValue = answer.slice(0, idx + 1);
-      expect(path.move(position)).toEqual(expectedValue);
-    });
-  });
 
   it('경로 마킹 테스트 / 전체 이동 성공 케이스', () => {
     const { answer, expectedPathMap, resultMoveable } = getClearCase();
 
     answer.map((position, idx) => {
-      path.move(position);
-      expectPathMap(resultMoveable[idx], expectedPathMap, idx);
+      const resultPathMap = path.move(position, resultMoveable[idx]);
+      expectPathMap(resultPathMap, expectedPathMap, idx);
     });
   });
 
@@ -66,8 +56,8 @@ describe('Path 클래스 테스트', () => {
     const { answer, expectedPathMap, resultMoveable } = getFailCase();
 
     answer.map((position, idx) => {
-      path.move(position);
-      expectPathMap(resultMoveable[idx], expectedPathMap, idx);
+      const resultPathMap = path.move(position, resultMoveable[idx]);
+      expectPathMap(resultPathMap, expectedPathMap, idx);
     });
   });
 });

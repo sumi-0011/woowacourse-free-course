@@ -15,11 +15,11 @@ class BridgeGame {
   }
 
   move(position) {
-    const paths = this.#path.move(position);
-    const moveResult = this.#bridge.getMoveable(paths);
+    const tempPaths = [...this.#path.getPaths(), position];
+    const moveResult = this.#bridge.getMoveResult(tempPaths);
 
     const isMoveable = MOVEABLE_RESULT.includes(moveResult);
-    const pathMap = this.#path.mark(isMoveable);
+    const pathMap = this.#path.move(position, isMoveable);
 
     return { moveResult, pathMap };
   }
