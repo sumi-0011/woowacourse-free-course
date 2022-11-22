@@ -1,8 +1,8 @@
 const MOVING_COMMAND = ['D', 'U'];
 
 const MOVING = {
-  [MOVING_COMMAND[0]]: 0,
-  [MOVING_COMMAND[1]]: 1,
+  D: 0,
+  U: 1,
 };
 
 const MOVE_RESULT = {

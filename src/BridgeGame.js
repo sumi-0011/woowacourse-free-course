@@ -1,5 +1,7 @@
-const { MOVEABLE, INIT_TRY_COUNT } = require('./utils/constants');
+const { INIT_TRY_COUNT, MOVE_RESULT } = require('./utils/constants');
 const Path = require('./Path');
+
+const MOVEABLE_RESULT = [MOVE_RESULT.MOVEABLE, MOVE_RESULT.END];
 
 class BridgeGame {
   #bridge;
@@ -16,7 +18,7 @@ class BridgeGame {
     const paths = this.#path.move(position);
     const moveResult = this.#bridge.getMoveable(paths);
 
-    const isMoveable = MOVEABLE.includes(moveResult);
+    const isMoveable = MOVEABLE_RESULT.includes(moveResult);
     const pathMap = this.#path.mark(isMoveable);
 
     return { moveResult, pathMap };
