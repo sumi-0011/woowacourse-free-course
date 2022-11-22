@@ -43,8 +43,13 @@ const InputView = {
 
   readLine(msg, callback, validation) {
     Console.readLine(`${msg}\n`, (answer) => {
-      const isSuccess = validation ? validation(answer) : true;
-      isSuccess ? callback(answer) : this.readLine(msg, callback, validation);
+      try {
+        validation(answer);
+        callback(answer);
+      } catch (error) {
+        Console.print(error.message);
+        this.readLine(msg, callback, validation);
+      }
     });
   },
 };

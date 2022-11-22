@@ -1,5 +1,4 @@
 const { MOVING_COMMAND, ERROR_MESSAGE, GAME_COMMANDS } = require('./constants');
-const { Console } = require('@woowacourse/mission-utils');
 
 /**
  * @param {string} value
@@ -68,28 +67,23 @@ const validBridgeSizeInput = (value) => {
     validInBound(value, 3, 20);
     return true;
   } catch (error) {
-    Console.print(ERROR_MESSAGE.wrong_bridge_size_input);
-    return false;
+    throw new Error(ERROR_MESSAGE.wrong_bridge_size_input);
   }
 };
 
 const validMoveInput = (answer) => {
   try {
     validIncludeValue(MOVING_COMMAND, answer);
-    return true;
   } catch (error) {
-    Console.print(ERROR_MESSAGE.wrong_move_command);
-    return false;
+    throw new Error(ERROR_MESSAGE.wrong_move_command);
   }
 };
 
 const validGameCommand = (answer) => {
   try {
     validIncludeValue(GAME_COMMANDS, answer);
-    return true;
   } catch (error) {
-    Console.print(ERROR_MESSAGE.wrong_game_command);
-    return false;
+    throw new Error(ERROR_MESSAGE.wrong_game_command);
   }
 };
 
