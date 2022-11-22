@@ -1,4 +1,9 @@
-const { MOVING_COMMAND, ERROR_MESSAGE, GAME_COMMANDS } = require('./constants');
+const {
+  MOVING_COMMAND,
+  ERROR_MESSAGE,
+  GAME_COMMANDS,
+  GAME_COMMAND,
+} = require('./constants');
 
 /**
  * @param {string} value
@@ -34,7 +39,7 @@ const validIncludeValue = (list, value) => {
  */
 const validNumber = (number) => {
   if (Number.isNaN(number)) {
-    throw new Error('[ERROR] 입력값이 NaN입니다.');
+    throw new Error(ERROR_MESSAGE.input_isNaN);
   }
   return true;
 };
@@ -61,11 +66,10 @@ const validInBound = (number, minBound, maxBound) => {
   return true;
 };
 
-const validBridgeSizeInput = (value) => {
+const validBridgeSizeInput = (answer) => {
   try {
-    validInteger(value);
-    validInBound(value, 3, 20);
-    return true;
+    validInteger(answer);
+    validInBound(answer, 3, 20);
   } catch (error) {
     throw new Error(ERROR_MESSAGE.wrong_bridge_size_input);
   }
@@ -81,7 +85,8 @@ const validMoveInput = (answer) => {
 
 const validGameCommand = (answer) => {
   try {
-    validIncludeValue(GAME_COMMANDS, answer);
+    const gameCommands = Object.values(GAME_COMMAND);
+    validIncludeValue(gameCommands, answer);
   } catch (error) {
     throw new Error(ERROR_MESSAGE.wrong_game_command);
   }

@@ -1,14 +1,8 @@
 const MOVING_COMMAND = ['D', 'U'];
 
 const MOVING = {
-  D: 0,
-  U: 1,
-};
-
-const MARKING = {
-  RIGHT: 'O',
-  WRONG: 'X',
-  EMPTY: ' ',
+  [MOVING_COMMAND[0]]: 0,
+  [MOVING_COMMAND[1]]: 1,
 };
 
 const MOVE_RESULT = {
@@ -17,12 +11,10 @@ const MOVE_RESULT = {
   FAIL: 2,
 };
 
-const MOVEABLE = [MOVE_RESULT.MOVEABLE, MOVE_RESULT.END];
-
-const MOVE_RESULT_NAME = {
-  [MOVE_RESULT.MOVEABLE]: 'moveable',
-  [MOVE_RESULT.END]: 'end',
-  [MOVE_RESULT.FAIL]: 'fail',
+const MARKING = {
+  RIGHT: 'O',
+  WRONG: 'X',
+  EMPTY: ' ',
 };
 
 const INIT_TRY_COUNT = 1;
@@ -32,8 +24,6 @@ const GAME_COMMAND = {
   QUIT: 'Q',
 };
 
-const GAME_COMMANDS = Object.values(GAME_COMMAND);
-
 const ERROR_MESSAGE = {
   wrong_input: '[ERROR] 잘못된 입력입니다. ',
   wrong_bridge_size_input:
@@ -42,17 +32,23 @@ const ERROR_MESSAGE = {
     '[ERROR] "U"또는 "D"를 입력하여야 합니다. (위: U, 아래: D)',
   wrong_game_command:
     '[ERROR] "R"또는 "Q"를 입력하여야 합니다. (재시도: R, 종료: Q)',
+  input_isNaN: '[ERROR] 입력값이 NaN입니다.',
 };
+
+Object.freeze(MOVING_COMMAND);
+Object.freeze(MOVE_RESULT);
+Object.freeze(GAME_COMMAND);
+Object.freeze(ERROR_MESSAGE);
+Object.freeze(MOVING);
+Object.freeze(INIT_TRY_COUNT);
+Object.freeze(MARKING);
 
 module.exports = {
   MOVING_COMMAND,
-  MOVE_RESULT,
-  GAME_COMMAND,
-  GAME_COMMANDS,
-  MOVE_RESULT_NAME,
-  ERROR_MESSAGE,
   MOVING,
-  MOVEABLE,
-  INIT_TRY_COUNT,
+  MOVE_RESULT,
   MARKING,
+  INIT_TRY_COUNT,
+  GAME_COMMAND,
+  ERROR_MESSAGE,
 };
