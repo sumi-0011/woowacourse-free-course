@@ -11,11 +11,15 @@ const MOVE_RESULT = {
   FAIL: 2,
 };
 
+const MOVEABLE = [MOVE_RESULT.MOVEABLE, MOVE_RESULT.END];
+
 const MOVE_RESULT_NAME = {
   [MOVE_RESULT.MOVEABLE]: 'moveable',
   [MOVE_RESULT.END]: 'end',
   [MOVE_RESULT.FAIL]: 'fail',
 };
+
+const INIT_TRY_COUNT = 1;
 
 const GAME_COMMAND = {
   RETRY: 'R',
@@ -42,4 +46,6 @@ module.exports = {
   MOVE_RESULT_NAME,
   ERROR_MESSAGE,
   MOVING,
+  MOVEABLE,
+  INIT_TRY_COUNT,
 };

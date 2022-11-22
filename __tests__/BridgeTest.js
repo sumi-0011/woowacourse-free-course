@@ -23,21 +23,21 @@ describe('Bridge, BridgeMarker 테스트', () => {
     expect(makeBridge).toEqual(res);
   });
 
-  it('이동 가능 여부 체크 기능 테스트', () => {
-    const size = 3;
-    const bridge = new Bridge(size);
+  // it('이동 가능 여부 체크 기능 테스트', () => {
+  //   const size = 3;
+  //   const bridge = new Bridge(size);
 
-    const res = [
-      { step: 0, move: 'D', result: MOVE_RESULT.MOVEABLE },
-      { step: 0, move: 'U', result: MOVE_RESULT.FAIL },
-      { step: 1, move: 'D', result: MOVE_RESULT.FAIL },
-      { step: 1, move: 'U', result: MOVE_RESULT.MOVEABLE },
-      { step: 2, move: 'D', result: MOVE_RESULT.FAIL },
-      { step: 2, move: 'U', result: MOVE_RESULT.END },
-    ];
+  //   const res = [
+  //     { step: 0, move: 'D', result: MOVE_RESULT.MOVEABLE },
+  //     { step: 0, move: 'U', result: MOVE_RESULT.FAIL },
+  //     { step: 1, move: 'D', result: MOVE_RESULT.FAIL },
+  //     { step: 1, move: 'U', result: MOVE_RESULT.MOVEABLE },
+  //     { step: 2, move: 'D', result: MOVE_RESULT.FAIL },
+  //     { step: 2, move: 'U', result: MOVE_RESULT.END },
+  //   ];
 
-    res.forEach(({ step, move, result }) => {
-      expect(bridge.getMoveable(step, move)).toEqual(result);
-    });
-  });
+  //   res.forEach(({ step, move, result }) => {
+  //     expect(bridge.getMoveable(step, move)).toEqual(result);
+  //   });
+  // });
 });

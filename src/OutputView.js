@@ -1,5 +1,4 @@
 const { Console } = require('@woowacourse/mission-utils');
-const { calcMap } = require('./utils');
 
 const OutputView = {
   printMap(pathMap) {

@@ -1,6 +1,6 @@
 const { Console } = require('@woowacourse/mission-utils');
-const { GAME_COMMAND } = require('./Constant');
-const { convertToInteger } = require('./utils');
+const { GAME_COMMAND } = require('./utils/constants');
+
 const {
   validMoveInput,
   validGameCommand,
@@ -12,7 +12,7 @@ const InputView = {
     this.readLine(
       '다리의 길이를 입력해주세요.',
       (answer) => {
-        const bridgeSize = convertToInteger(answer);
+        const bridgeSize = Number.parseInt(answer, 10);
         Console.print('\n');
         callback(bridgeSize);
       },

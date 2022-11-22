@@ -1,4 +1,8 @@
-const { MOVING_COMMAND, ERROR_MESSAGE, GAME_COMMANDS } = require('./Constant');
+const {
+  MOVING_COMMAND,
+  ERROR_MESSAGE,
+  GAME_COMMANDS,
+} = require('./utils/constants');
 const { Console } = require('@woowacourse/mission-utils');
 
 /**

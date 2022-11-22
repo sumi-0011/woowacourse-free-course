@@ -1,4 +1,4 @@
-const { MOVING } = require('./Constant');
+const { MOVING } = require('./utils/constants');
 
 const MARKING = {
   RIGHT: 'O',
@@ -17,12 +17,13 @@ class Path {
 
   move(position) {
     this.#paths.push(position);
+
     return this.#paths;
   }
 
-  mark(isRight) {
+  mark(isMoveable) {
     const currentPath = this.getCurrentPath();
-    const marking = isRight ? MARKING.RIGHT : MARKING.WRONG;
+    const marking = isMoveable ? MARKING.RIGHT : MARKING.WRONG;
 
     currentPath === 'D' ? this.#markD(marking) : this.#markU(marking);
 
